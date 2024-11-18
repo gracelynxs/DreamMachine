@@ -1,0 +1,55 @@
+Delivery Ideas: 
+---------------
+
+1. Pass the Phone Around:
+- game is hosted on a single device
+- each player takes turns interacting with the script by reading their part, passing
+the device to the next person
+
+implementation:
+- modify script.html to include a next player button that clears the current view and presents
+a new prompt for the next player
+- add local session storage to ensure progress saved if browser reloads
+- use javascript to manage state transitions btwn players and roles
+
+cons:
+- only works if everyone is physically together
+-----------------------------
+2. Text Everyone a Link:
+- each player gets personalized link to specific portion of the script via SMS
+- each player interacts with their part of the script independently
+
+implementation:
+- use vonage library to send sms messages with unique urls for each player
+- generate urls dynamically in the backend --> link segments of the script
+stored on the server
+- modify generate-and-send endpoint in backend to splot the script into sections
+and to distribute them
+
+cons:
+- all players need phone numbers
+-----------------------
+3. Email Distribution
+- each player receives their part of the script via email including instructions
+and character descriptions
+
+implementation:
+- use library like smtplib or third-party (SendGrid)
+- include an input form for player emails in index.html
+- split the script by player and email corresponding part
+
+cons:
+- not as immediate or interactive as the other options
+-------------------------
+4. Browser-Based Individual Delivery
+- generate qr code using qrcode.js linking to /player-join
+- players scan qr codee and input their phone number or email on/player-join page
+- backend splits script by player roles and associates lines with player IDs 
+- Players visit /player-lines where lines are fetched sequentiall using
+/get-next-line API
+- players see only their lines on screen one at a time --> clicking next sends 
+a rquest to the backend to display the next player's line on their screen
+
+backend logic:
+- assign roles and aprts of the script during player registration
+- ensure players can only access their assigned lines

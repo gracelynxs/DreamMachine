@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>QR Code - DreamMachine</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      background: #fd79a8;
+      color: #ffffff;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #ffeaa7;
+      margin-bottom: 20px;
+    }
+    #qrCodeCanvas {
+      margin: 20px auto;
+    }
+    #scriptLink {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      color: #ffeaa7;
+      word-wrap: break-word;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #ffeaa7;
+      color: #2d3436;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #fdcb6e;
+    }
+  </style>
+</head>
+<body>
+  <h1>Share Your Script</h1>
+  <div id="qrCodeCanvas"></div>
+  <p id="scriptLink"></p>
+  <button onclick="window.location.href='/'">Start Over</button>
+
+  <script>
+    // Get the script link from the URL parameters
+    const scriptLink = decodeURIComponent(new URLSearchParams(window.location.search).get('scriptLink'));
+    const qrCanvas = document.getElementById('qrCodeCanvas');
+    const scriptLinkText = document.getElementById('scriptLink');
+
+    if (scriptLink) {
+      // Show the script link as fallback text
+      scriptLinkText.textContent = scriptLink;
+
+      // Generate the QR code
+      new QRCode(qrCanvas, {
+        text: scriptLink,
+        width: 200,  // QR code width
+        height: 200, // QR code height
+        colorDark: "#000000",  // QR code dark color
+        colorLight: "#ffffff", // QR code light color
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    } else {
+      // Display an error if the link is missing
+      scriptLinkText.textContent = "Error: No script link provided.";
+      scriptLinkText.style.color = "#ff0000"; // Highlight error in red
+    }
+  </script>
+</body>
+</html>

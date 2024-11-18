@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\ellac\Documents\FALL 2024\Comp_sci 338\Dream-main\venv
+set VIRTUAL_ENV=C:\Users\ellac\338\DreamMachine\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

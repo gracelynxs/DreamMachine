@@ -67,7 +67,7 @@
       box-shadow: 1px 1px 5px #2d3436;
     }
     #chat-section,
-    #phone-section,
+    #link-section,
     #confirmation-message {
       display: none;
     }
@@ -93,6 +93,15 @@
       border-radius: 15px;
       box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
     }
+    #qr-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    canvas {
+      border: 2px solid #ffeaa7;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -100,19 +109,19 @@
     <div id="intro-section">
       <h1>DreamMachine</h1>
       <p>Let your friends and family act out your dream (or nightmare).</p>
-      <p>Do you want to dream? Perhaps see your dream come to life? DreamMachine asks you questions about your day and generates a dream for you in a script, with backdrops, that your friends can act out for you.</p>
     </div>
 
     <!-- Initial Form Section -->
     <div id="form-section">
       <form id="dream-form">
         <label for="player_count">Number of players (excluding dreamer):</label>
-        <select id="player_count" name="player_count" required>
+        <select id="player_count" name="player_count" required onchange="generateUserFields()">
           <option value="">Select number of players</option>
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
         </select>
+        <div id="user-fields"></div>
         <label for="dream_or_nightmare">Dream or Nightmare?</label>
         <select id="dream_or_nightmare" name="dream_or_nightmare" required>
           <option value="">Select an option</option>
@@ -133,40 +142,59 @@
       </div>
     </div>
 
-    <!-- Phone Number Input Section -->
-    <div id="phone-section">
-      <h3>Sending you the script...</h3>
-      <form id="send-script-form" onsubmit="return generateAndSendScript(event);">
-        <label for="phone_number">Phone number to send the script to:</label>
-        <input maxlength="256" name="phone_number" placeholder="Example: +1234567890" type="text" id="phone_number" required>
-        <button type="submit" id="send-script-button">Send script</button>
-      </form>
-      <div id="loading-message" style="display: none;">Loading...</div>
-    </div>
-
-    <!-- Confirmation Message -->
-    <div id="confirmation-message">
-      <p>Your dream script is ready! A link to view it has been sent to the phone number provided.</p>
+    <!-- Link Sharing Section -->
+    <div id="link-section">
+      <h3>Share your script!</h3>
+      <div id="qr-container">
+        <canvas id="qr-code"></canvas>
+      </div>
+      <button onclick="resetApp()">Start Over</button>
     </div>
   </main>
 
-  <!-- JavaScript functions for chat functionality -->
   <script>
     let playerCount;
     let dreamOrNightmare;
+    let playerIDs = [];
+
+    function generateUserFields() {
+      const count = document.getElementById("player_count").value;
+      const userFields = document.getElementById("user-fields");
+      userFields.innerHTML = "";
+
+      if (count) {
+        for (let i = 1; i <= count; i++) {
+          const input = document.createElement("input");
+          input.type = "text";
+          input.placeholder = `Enter Player ${i} ID`;
+          input.name = `player_${i}_id`;
+          input.required = true;
+          input.className = "user-field";
+          userFields.appendChild(input);
+        }
+      }
+    }
 
     async function startChat() {
-      playerCount = document.getElementById('player_count').value;
-      dreamOrNightmare = document.getElementById('dream_or_nightmare').value;
+      playerCount = document.getElementById("player_count").value;
+      dreamOrNightmare = document.getElementById("dream_or_nightmare").value;
 
       if (!playerCount || !dreamOrNightmare) {
-        alert('Please select both the number of players and dream type.');
+        alert("Please fill all fields.");
         return;
       }
 
-      document.getElementById('form-section').style.display = 'none';
-      document.getElementById('intro-section').style.display = 'none';
-      document.getElementById('chat-section').style.display = 'block';
+      const userInputs = document.querySelectorAll(".user-field");
+      playerIDs = Array.from(userInputs).map(input => input.value);
+
+      if (playerIDs.includes("")) {
+        alert("Please provide all player IDs.");
+        return;
+      }
+
+      document.getElementById("form-section").style.display = "none";
+      document.getElementById("intro-section").style.display = "none";
+      document.getElementById("chat-section").style.display = "block";
 
       await startChatSession();
       await getAgentQuestion();
@@ -174,22 +202,23 @@
 
     async function startChatSession() {
       try {
-        const response = await fetch('/start-chat', {
-          method: 'POST',
+        const response = await fetch("/start-chat", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             player_count: playerCount,
-            dream_or_nightmare: dreamOrNightmare
-          })
+            dream_or_nightmare: dreamOrNightmare,
+            player_ids: playerIDs,
+          }),
         });
         const data = await response.json();
-        if (data && data.status === 'success') {
-          console.log('Chat session started successfully');
+        if (data && data.status === "success") {
+          console.log("Chat session started successfully");
         }
       } catch (error) {
-        console.error('Error starting chat session:', error);
+        console.error("Error starting chat session:", error);
       }
     }
 
@@ -215,7 +244,7 @@
 
         if (data.end_chat) {
           document.getElementById('chat-input').disabled = true;
-          document.getElementById('chat-button').textContent = 'Next';
+          document.getElementById('chat-button').textContent = 'Generate Script';
           document.getElementById('chat-button').onclick = prepareForScriptGeneration;
         }
       } catch (error) {
@@ -256,36 +285,36 @@
       }
     }
 
-    function prepareForScriptGeneration() {
-      document.getElementById('chat-section').style.display = 'none';
-      document.getElementById('phone-section').style.display = 'block';
-    }
-
-    async function generateAndSendScript(event) {
-      event.preventDefault();
-      document.getElementById('send-script-button').style.display = 'none';
-      document.getElementById('loading-message').style.display = 'block';
+    async function prepareForScriptGeneration() {
       try {
-        const formData = new FormData(document.getElementById('send-script-form'));
-        formData.append('player_count', playerCount);
-        formData.append('dream_or_nightmare', dreamOrNightmare);
-        const response = await fetch('/generate-and-send', {
+        const response = await fetch('/generate-and-distribute-script', {
           method: 'POST',
-          body: formData
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
         const data = await response.json();
+
         if (data.status === 'success') {
-          document.getElementById('confirmation-message').style.display = 'block';
-          document.getElementById('phone-section').style.display = 'none';
-        } else {
-          alert("Error: " + data.error);
+          const scriptLink = `${window.location.origin}/display-script`;
+          window.location.href = `/qr-code?scriptLink=${encodeURIComponent(scriptLink)}`;
         }
       } catch (error) {
-        console.error('Error generating and sending script:', error);
-        alert("There was an error sending your request.");
-      } finally {
-        document.getElementById('loading-message').style.display = 'none';
+        console.error('Error generating script:', error);
       }
+    }
+
+
+    function generateQRCode(url) {
+      const canvas = document.getElementById('qr-code');
+      QRCode.toCanvas(canvas, url, function (error) {
+        if (error) console.error(error);
+        console.log('QR Code generated successfully!');
+      });
+    }
+
+    function resetApp() {
+      window.location.reload();
     }
   </script>
 </body>
