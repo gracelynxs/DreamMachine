@@ -1,0 +1,75 @@
+/* General body styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  /* Shared component styles */
+  button, select, input {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  button {
+    border: 1px solid #ccc;
+    background: #eee;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background: #ddd;
+    cursor: not-allowed;
+  }
+  
+  h1, h2, h3, p, label {
+    margin-bottom: 10px;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ccc;
+  }
+  
+  /* Chat-specific styles */
+  .chat-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 70%;
+  }
+  
+  .agent-message {
+    background-color: #e0e0e0;
+  }
+  
+  .dreamer-message {
+    background-color: #c0c0c0;
+    text-align: right;
+  }
+  
+  #chat {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #chat-section,
+  #phone-section,
+  #confirmation-message {
+    display: none;
+  }
+  
+  /* Script-specific styles */
+  #character-descriptions p {
+    margin: 0 0 10px;
+  }
+  
+  #script-container {
+    display: none;
+  }
+  
