@@ -166,7 +166,7 @@
         for (let i = 1; i <= count; i++) {
           const input = document.createElement("input");
           input.type = "text";
-          input.placeholder = `Enter Player ${i}'s' Name`;
+          input.placeholder = `Enter Player ${i}'s Name`;
           input.name = `player_${i}_id`;
           input.required = true;
           input.className = "user-field";
@@ -188,7 +188,7 @@
       playerIDs = Array.from(userInputs).map(input => input.value);
 
       if (playerIDs.includes("")) {
-        alert("Please provide all player IDs.");
+        alert("Please provide all player names.");
         return;
       }
 
