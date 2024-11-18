@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\ellac\Documents\FALL 2024\Comp_sci 338\Dream-main\venv"
+VIRTUAL_ENV="C:\Users\ellac\338\DreamMachine\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

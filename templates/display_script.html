@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Display Script</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      background: #fd79a8;
+      color: #ffffff;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #ffeaa7;
+      margin-bottom: 20px;
+    }
+    input, button {
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+    }
+    button {
+      background: #ffeaa7;
+      color: #2d3436;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #fdcb6e;
+    }
+  </style>
+</head>
+<body>
+  <h1>Enter Your Player ID</h1>
+  <form method="POST">
+    <input type="text" name="player_id" placeholder="Enter Your Player ID" required>
+    <button type="submit">Get My Lines</button>
+  </form>
+</body>
+</html>

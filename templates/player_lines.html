@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Your Lines</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      background: #fd79a8;
+      color: #ffffff;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #ffeaa7;
+      margin-bottom: 20px;
+    }
+    .line {
+      margin: 10px 0;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #ffeaa7;
+      color: #2d3436;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #fdcb6e;
+    }
+  </style>
+</head>
+<body>
+  <h1>Your Lines</h1>
+  <div id="lines">
+    {% for line in lines %}
+      <p class="line">{{ line }}</p>
+    {% endfor %}
+  </div>
+  <button onclick="window.location.href='/display-script'">Back</button>
+</body>
+</html>

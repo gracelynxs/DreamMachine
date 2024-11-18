@@ -92,8 +92,6 @@ Player 3: (nodding seriously) — "Everyone, remember—penguins don't panic. We
 
 Player 4: (half-waddling, half-laughing) — "If we survive, I'm getting this on a T-shirt."
 
-##########
-
 Dreamer: (whispering frantically) — "I think one of the polar bears just winked at me! Do polar bears even wink?"
 
 Player 1: (shaking) — "Not usually... unless they've marked you as their next target."
@@ -161,27 +159,9 @@ Dreamer: (proudly) — "Let's waddle off... like legends."
 """
 
 player_description_prompting = """
-- Given a script with placeholder character names, generate character descriptions for every player besides the dreamer. The dreamer will be given the same description every time: "Dreamer: You are playing your friend who's dream this is! \
-  Every other character will be named Player X where X is a number 1, 2, 3, etc. 
-- The descriptions should be brief, only roughly a sentence long. The descriptions should not reveal anything about the plot of the script. Simply reveal how the character acts and feels throughout the script.
-- The first character description of the dreamer should ALWAYS be the same as shown below. NEVER change it. 
-- Do not write more descriptions then there are players. If there are 3 players (Dreamer, Player 1, Player 2), then there should be 3 descriptions. Likewise if there are 5 players (Dreamer, Player 1, Player 2, Player 3, Player 4), then there should be 5 descriptions.
- 
-Example (for 5 players): 
-
-    Dreamer: You are playing your friend who's dream this is!  
-
-    Player 1: Bold and dramatic, Player 1 jumps into action with big ideas, leading the group with energy—even if their plans are a bit unconventional.
-
-    Player 2: Cautious and practical, Player 2 keeps the group grounded, quick to think on their feet and always focused on safety.
-
-    Player 3: Witty and laid-back, Player 3 brings humor and calm, often diffusing tension with sarcastic one-liners and a steady demeanor. 
-
-    Player 4: Adventurous and imaginative, Player 4 is always ready to try something new, even if it sounds a bit far-fetched. They bring a spark of creativity to the group, often suggesting unexpected ideas with a grin.
-
-    ...continue if more players...
-
-"""
+- Given a script with placeholder character names, generate character descriptions for every player besides the dreamer. The dreamer will be given the same description every time: "Dreamer: You are playing your friend who's dream this is!   Every other character will be named Player X where X is a number 1, 2, 3, etc.  - The descriptions should be brief, only roughly a sentence long. The descriptions should not reveal anything about the plot of the script. Simply reveal how the character acts and feels throughout the script.  - The first character description of the dreamer should ALWAYS be the same as shown below. NEVER change it.  - Do not write more descriptions then there are players. If there are 3 players (Dreamer, Player 1, Player 2), then there should be 3 descriptions. Likewise if there are 5 players (Dreamer, Player 1, Player 2, Player 3, Player 4), then there should be 5 descriptions.
+  Example (for 5 players):    Dreamer: You are playing your friend who's dream this is!    Player 1: Bold and dramatic, Player 1 jumps into action with big ideas, leading the group with energy—even if their plans are a bit unconventional.    Player 2: Cautious and practical, Player 2 keeps the group grounded, quick to think on their feet and always focused on safety.    Player 3: Witty and laid-back, Player 3 brings humor and calm, often diffusing tension with sarcastic one-liners and a steady demeanor.    Player 4: Adventurous and imaginative, Player 4 is always ready to try something new, even if it sounds a bit far-fetched. They bring a spark of creativity to the group, often suggesting unexpected ideas with a grin.
+    ...continue if more players..."""
 
 conversation_prompting = """ Your goal is to gather insight on a person's day. You should ask questions in order to do so. YOU SHOULD ONLY BE ASKING QUESTIONS. UNDER NO CIRCUMSTANCE SHOULD YOUR RESPONSE END WITH PUNCTUATION OTHER THAN A QUESTION MARK.
 EXAMPLE CONVERSATION: 
@@ -196,27 +176,9 @@ AI: Were you tired? What did you get at the grocery store?
 """
 
 player_description_prompting = """
-- Given a script with placeholder character names, generate character descriptions for every player besides the dreamer. The dreamer will be given the same description every time: "Dreamer: You are playing your friend who's dream this is! \
-  Every other character will be named Player X where X is a number 1, 2, 3, etc. 
-- The descriptions should be brief, only roughly a sentence long. The descriptions should not reveal anything about the plot of the script. Simply reveal how the character acts and feels throughout the script.
-- The first character description of the dreamer should ALWAYS be the same as shown below. NEVER change it. 
-- Do not write more descriptions then there are players. If there are 3 players (Dreamer, Player 1, Player 2), then there should be 3 descriptions. Likewise if there are 5 players (Dreamer, Player 1, Player 2, Player 3, Player 4), then there should be 5 descriptions.
- 
-Example (for 5 players): 
-
-    Dreamer: You are playing your friend who's dream this is!  
-
-    Player 1: Bold and dramatic, Player 1 jumps into action with big ideas, leading the group with energy—even if their plans are a bit unconventional.
-
-    Player 2: Cautious and practical, Player 2 keeps the group grounded, quick to think on their feet and always focused on safety.
-
-    Player 3: Witty and laid-back, Player 3 brings humor and calm, often diffusing tension with sarcastic one-liners and a steady demeanor. 
-
-    Player 4: Adventurous and imaginative, Player 4 is always ready to try something new, even if it sounds a bit far-fetched. They bring a spark of creativity to the group, often suggesting unexpected ideas with a grin.
-
-    ...continue if more players...
-
-"""
+- Given a script with placeholder character names, generate character descriptions for every player besides the dreamer. The dreamer will be given the same description every time: "Dreamer: You are playing your friend who's dream this is!   Every other character will be named Player X where X is a number 1, 2, 3, etc.  - The descriptions should be brief, only roughly a sentence long. The descriptions should not reveal anything about the plot of the script. Simply reveal how the character acts and feels throughout the script.  - The first character description of the dreamer should ALWAYS be the same as shown below. NEVER change it.  - Do not write more descriptions then there are players. If there are 3 players (Dreamer, Player 1, Player 2), then there should be 3 descriptions. Likewise if there are 5 players (Dreamer, Player 1, Player 2, Player 3, Player 4), then there should be 5 descriptions.
+  Example (for 5 players):    Dreamer: You are playing your friend who's dream this is!    Player 1: Bold and dramatic, Player 1 jumps into action with big ideas, leading the group with energy—even if their plans are a bit unconventional.    Player 2: Cautious and practical, Player 2 keeps the group grounded, quick to think on their feet and always focused on safety.    Player 3: Witty and laid-back, Player 3 brings humor and calm, often diffusing tension with sarcastic one-liners and a steady demeanor.    Player 4: Adventurous and imaginative, Player 4 is always ready to try something new, even if it sounds a bit far-fetched. They bring a spark of creativity to the group, often suggesting unexpected ideas with a grin.
+    ...continue if more players..."""
 
 ###########################################################################################
 ###### FUNCTIONS ##########################################################################
@@ -270,19 +232,6 @@ def player_description_generator(script):
 
     return response.choices[0].message.content
 
-def send_text_message_vonage(to_number, message_body):
-    responseData = sms.send_message(
-        {
-            "from": VONAGE_FROM_NUMBER,
-            "to": to_number,
-            "text": message_body,
-        }
-    )
-    if responseData["messages"][0]["status"] == "0":
-        return {'status': 'success', 'message_id': responseData["messages"][0]["message-id"]}
-    else:
-        return {'status': 'error', 'error': responseData["messages"][0]["error-text"]}
-
 ###########################################################################################
 ###### ENDPOINTS ##########################################################################
 ###########################################################################################
@@ -294,37 +243,29 @@ def index():
 @app.route('/start-chat', methods=['POST'])
 def start_chat():
     data = request.get_json()
-    session['player_count'] = data.get('player_count')
+    session['player_count'] = int(data.get('player_count'))
     session['dream_or_nightmare'] = data.get('dream_or_nightmare')
+    session['player_ids'] = data.get('player_ids')
     session['current_step'] = 0
     session['responses'] = []
-    session['conversation'] = []  # Initialize conversation history
+    session['conversation'] = []
     return jsonify({'status': 'success'})
-
-
 
 @app.route('/get-next-question', methods=['GET'])
 def get_next_question():
     current_step = session.get('current_step', 0)
 
     if current_step == 0:
-        # Always start with this question
         question = "Tell me about your day."
     elif current_step < 3:
-        # Use generate_bot_message to create follow-up questions dynamically
         conversation_history = session.get('conversation', [])
-        print(conversation_history)
-        #question = 'test test'
         question = generate_bot_message(conversation_history)
-        print(question)
     else:
         question = "Thank you for your responses. We will generate your dream script shortly!"
         return jsonify({'question': question, 'end_chat': True})
 
     session['conversation'].append({'role': 'assistant', 'content': question})
     return jsonify({'question': question, 'end_chat': False})
-
-
 
 @app.route('/send-user-response', methods=['POST'])
 def send_user_response():
@@ -336,86 +277,104 @@ def send_user_response():
     session['conversation'].append({'role': 'user', 'content': user_response})
     return jsonify({'status': 'success'})
 
-@app.route('/generate-descriptions', methods=['POST'])
-def generate_descriptions():
+@app.route('/generate-and-distribute-script', methods=['POST'])
+def generate_and_distribute_script():
     try:
-        data = request.get_json()
-        script = data.get('script', '')
-        if not script:
-            return jsonify({'error': 'No script provided'}), 400
-        descriptions = player_description_generator(script)
-        return jsonify({'descriptions': descriptions.split('\n')})
+        player_count = session.get('player_count', 0)
+        dream_or_nightmare = session.get('dream_or_nightmare', '')
+        conversation_data = session.get('responses', [])
+        player_ids = session.get('player_ids', [])
+
+        if not player_ids or not player_count:
+            return jsonify({'error': 'Missing player IDs or player count'}), 400
+
+        # Generate the script content
+        lines = chat_script_background_generator(conversation_data, player_count, dream_or_nightmare)
+
+        # Initialize script_data if not already done
+        if 'script_data' not in session:
+            session['script_data'] = {}
+
+        session['script_data']['lines'] = lines  # Store the full script lines
+        session['script_data']['player_lines'] = {player_id: [] for player_id in player_ids}
+
+        # Create a role map (Player 1, Player 2, etc.)
+        role_map = {player_ids[i]: f"Player {i + 1}" for i in range(len(player_ids))}
+        session['script_data']['role_map'] = role_map
+
+        # Assign lines to players
+        for idx, line in enumerate(lines):
+            player_index = idx % len(player_ids)
+            player_id = player_ids[player_index]
+            prefixed_line = f"{role_map[player_id]}: {line}"  # Prefix with Player role
+            session['script_data']['player_lines'][player_id].append(prefixed_line)
+
+        return jsonify({'status': 'success'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/generate-and-send', methods=['POST'])
-def generate_and_send():
-    try:
-        # Retrieve form data
-        phone_numbers = request.form.getlist('phone_numbers[]')
-        player_count = request.form['player_count']
-        dream_or_nightmare = request.form['dream_or_nightmare']
 
-        # Retrieve player names
-        player_names = []
-        for i in range(1, int(player_count) + 1):
-            player_name = request.form.get(f'player_name_{i}')
-            player_names.append(player_name)
+@app.route('/get-player-lines', methods=['POST'])
+def get_player_lines():
+    data = request.get_json()
+    player_id = data.get('player_id')
 
-    except KeyError as e:
-        return jsonify({'status': 'error', 'error': f'Missing field: {e.args[0]}'}), 400
+    script_data = session.get('script_data', {})
+    if not player_id or 'player_lines' not in script_data or player_id not in script_data['player_lines']:
+        return jsonify({'error': 'Invalid player ID'}), 400
 
-    # Retrieve conversation data from the session
-    conversation_data = session.get('responses', [])
+    return jsonify({'lines': script_data['player_lines'][player_id]})
 
-    # Generate the script content, passing player names
-    lines = chat_script_background_generator(conversation_data, player_count, dream_or_nightmare)
+@app.route('/qr-code')
+def qr_code():
+    script_link = request.args.get('scriptLink', '')
+    return render_template('qr_code.html', script_link=script_link)
 
-    # Generate the character descriptions
-    script_text = "\n".join(lines)  # Combine the lines into a single string
-    character_descriptions = player_description_generator(script_text)
+@app.route('/display-script', methods=['GET', 'POST'])
+def display_script():
+    if request.method == 'GET':
+        # Serve the HTML page for entering the Player ID
+        return render_template('script.html')
 
-    # Generate a unique ID for the script and store it
-    script_id = str(uuid4())
-    script_data[script_id] = {
-        'lines': lines,
-        'character_descriptions': character_descriptions
-    }
+    if request.method == 'POST':
+        data = request.json
+        player_id = data.get('player_id')
 
-    # Construct the URL for the script page
-    script_url = f"{request.url_root}script/{script_id}"
-    print(script_url)
+        if not player_id:
+            return jsonify({'error': 'Player ID is required'}), 400
 
-    # Send the URL to each phone number
-    #for phone_number in phone_numbers:
-    #    formatted_phone_number = re.sub(r'\D', '', phone_number)  # Format the phone number
-    #    response = send_text_message_vonage(formatted_phone_number, f"Your dream script is ready! View it here: {script_url}")
-    #    if response['status'] != 'success':
-    #        return jsonify({'status': 'error', 'error': response['error']})
+        # Load the script data
+        script_data = session.get('script_data', {})
 
-    return jsonify({'status': 'success', 'script_url': script_url})
+        # Validate that script data exists
+        if 'player_lines' not in script_data or 'role_map' not in script_data:
+            return jsonify({'error': 'Script data is not available. Please generate the script first.'}), 500
 
+        # Check if player_id exists in player_lines
+        if player_id not in script_data['player_lines']:
+            return jsonify({'error': 'Player ID not found'}), 404
 
+        # Get this player's lines
+        player_lines = script_data['player_lines'][player_id]
 
-@app.route('/script/<script_id>')
-def display_script(script_id):
-    if script_id in script_data:
-        return render_template('script.html', script_id=script_id)
-    else:
-        return "Script not found", 404
+        # Add placeholders for other players' turns
+        role_map = script_data['role_map']
+        formatted_lines = []
 
+        for line in script_data['lines']:
+            # Check if the line belongs to the current player
+            if line.startswith(role_map[player_id]):
+                formatted_lines.append(line)  # Include the line
+            else:
+                # Find the role of the player to whom the line belongs
+                other_role = next((role for role in role_map.values() if line.startswith(role)), None)
+                if other_role:
+                    formatted_lines.append(f"{other_role}: [Waiting for their turn...]")
 
-@app.route('/generate-script/<script_id>')
-def generate_script(script_id):
-    # Serve script lines and character descriptions as JSON
-    if script_id in script_data:
-        return jsonify({
-            "script": script_data[script_id]['lines'],
-            "character_descriptions": script_data[script_id]['character_descriptions']
-        })
-    else:
-        return jsonify({"error": "Script not found"}), 404
+        # Return the formatted lines for the current player
+        return jsonify({'lines': formatted_lines}), 200
+
 
 if __name__ == '__main__':
     app.run(debug=True)
