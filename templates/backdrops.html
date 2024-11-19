@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backdrops - DreamMachine</title>
+    <style>
+        body {
+        font-family: 'Courier New', Courier, monospace;
+        margin: 0;
+        padding: 20px;
+        background: #fd79a8;
+        color: #ffffff;
+        text-shadow: 1px 1px 2px #2d3436;
+        }
+        h1, h3, p, label {
+        margin-bottom: 10px;
+        }
+        h1 {
+        font-size: 2.5rem;
+        text-align: center;
+        color: #ffeaa7;
+        text-shadow: 2px 2px 5px #6c5ce7;
+        }
+        #backdrop-section {
+            text-align: center;
+        }
+
+        #backdrop-list {
+            margin: 2rem 0;
+            text-align: left;
+            padding: 1rem;
+            background-color: #F3F4F6;
+            border-radius: 0.5rem;
+        }
+
+        #backdrop-preview {
+            min-height: 200px;
+            background-color: #F3F4F6;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .generate-btn, .home-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 200px;
+            border: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scene Backdrops</h1>
+        
+        <div class="scene-selector">
+            <button class="scene-btn" onclick="selectScene('beginning')">Beginning Scene</button>
+            <button class="scene-btn" onclick="selectScene('middle')">Middle Scene</button>
+            <button class="scene-btn" onclick="selectScene('end')">End Scene</button>
+        </div>
+
+        <div id="backdrop-preview">
+            Select a scene to generate its backdrop
+        </div>
+
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <p>Generating backdrop... This may take a few moments.</p>
+        </div>
+
+        <div class="button-container">
+            <button onclick="generateBackdrop()" class="generate-btn">Generate Backdrop</button>
+            <button onclick="window.location.href='/'" class="home-btn">Back to Home</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedScene = null;
+
+        function selectScene(scene) {
+            selectedScene = scene;
+            // Update button states
+            document.querySelectorAll('.scene-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(scene)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function generateBackdrop() {
+            if (!selectedScene) {
+                alert('Please select a scene first');
+                return;
+            }
+
+            // Show loading state
+            document.querySelector('.loading').style.display = 'block';
+            document.getElementById('backdrop-preview').innerHTML = '';
+
+            fetch('/generate-backdrop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ scene: selectedScene })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading state
+                document.querySelector('.loading').style.display = 'none';
+
+                if (data.status === 'success') {
+                    const img = document.createElement('img');
+                    img.src = data.image_url;
+                    img.alt = `${data.scene} scene backdrop`;
+                    document.getElementById('backdrop-preview').appendChild(img);
+                } else {
+                    document.getElementById('backdrop-preview').textContent = 
+                        'Error generating backdrop. Please try again.';
+                }
+            })
+            .catch(error => {
+                // Hide loading state
+                document.querySelector('.loading').style.display = 'none';
+                console.error('Error:', error);
+                document.getElementById('backdrop-preview').textContent = 
+                    'Error generating backdrop. Please try again.';
+            });
+        }
+    </script>
+</body>
+</html>
