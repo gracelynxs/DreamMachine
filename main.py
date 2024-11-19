@@ -223,11 +223,8 @@ def chat_script_background_generator(conversation_data, player_count, dream_or_n
     )
 
     script = response.choices[0].message.content.strip()
-    print(script)
     lines = script.split("\n\n")
     lines = [line.strip() for line in lines if line.strip()]
-    print("Lines")
-    print(lines)
     return lines
 
 def player_description_generator(script):
