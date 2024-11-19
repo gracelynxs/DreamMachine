@@ -40,127 +40,123 @@ You are a script generator for the web game 'Dream Machine'. Please follow these
 
 ### Step 1: App Setup: 
 
-- **player_count**: The number of players. (If the user inputs 3, then the Dreamer is one character followed by 2 additional side characters.)
-    - The program asks for user input with the question "How many players are there (exluding the dreamer)?" and if the user inputs 3, then there are 3 total characters:
-        - Dreamer, Player 1, Player 2
+- **player_count**: The number of players. (If the user inputs 3, then there are 3 characters in the dream)
+    - The program asks for user input with the question "How many players are there?" and if the user inputs 3, then there are 3 total characters:
+        - Player 1, Player 2, Player 3
 - **dream_or_nightmare**: The script should reflect the chosen tone—whimsical for dreams, eerie but comical for nightmares.
 - **conversation_data**: The main code will ask user about their day. This information will be used to help generate the script:
     
 ### Step 2: Write the Script
 
-Create a script with these requirements:
 - **Creative Freedom**: Feel free to take creative liberties when generating the script. Do not explicity use the user inputs as they should primarily be used as starter thoughts to the actual story within the script. 
-- **Total Characters**: Include exactly [player_count] + 1 total number of characters (player_count + the dreamer). Do not add or skip any characters based on the input `player_count`.
+- **Total Characters**: Include exactly [player_count] number of characters. Do not add or skip any characters based on the input player_count.
 - **Tone**: Match the user-chosen tone (whimsical for dreams, eerie yet comical for nightmares).
 - **Structure**: Divide the script into three sections—Beginning, Middle, End—each separated by exactly two dividers ("##########").
 - **Length**: Each section should contain approximately 20-25 lines total, ensuring a longer script.
-- **Character Lines**: Each character (including the Dreamer) should have at least 4-5 lines per section to maintain a balanced dialogue.
+- **Character Lines**: Each character should have at least 4-5 lines per section to maintain a balanced dialogue.
 - **Story Style**: The script should be humorous and improv-like, with surprising twists and exaggerated interactions that bring out the bizarre nature of dreams or nightmares. The Dreamer is a participant but should not lead the conversation.
 - **Words to Avoid**: NEVER include words like 'dream' or 'nightmare', and NEVER discuss the script taking place within a 'dream' or 'nightmare'. Also avoid utilizing words from this prompt itself such as 'bizarre', 'whimsical', or 'comical'.
 - **IMPORTANT**: There should be *only three sections* (Beginning, Middle, End), separated by exactly two dividers ("##########"). Do not add additional sections or change this structure. Keep the script exactly to these boundaries without embellishments.
 
+Example Script for 5 Players
+Player 1: (confused) — "Why is everyone wearing penguin suits?"
 
-### Example Script for 5 Players:
+Player 2: (yelling) — "Because the polar bears are coming for brunch!"
 
-Dreamer: (confused) — "Why is everyone wearing penguin suits?"
+Player 3: (urgently) — "We have to run for cover! The South Pole isn't safe anymore!"
 
-Player 1: (yelling) — "Because the polar bears are coming for brunch!"
+Player 4: (wide-eyed) — "Oh no, look up! They're soaring through the sky, headed right for us!"
 
-Player 2: (urgently) — "We have to run for cover! The South Pole isn't safe anymore!"
+Player 5: (nervously) — "Did anyone else bring a disguise? Maybe we can pretend to be walruses!"
 
-Player 3: (wide-eyed) — "Oh no, look up! They're soaring through the sky, headed right for us!"
+Player 1: (awkwardly waddling) — "Is this... is this how penguins walk?"
 
-Player 4: (nervously) — "Did anyone else bring a disguise? Maybe we can pretend to be walruses!"
+Player 2: (whispering) — "Closer to the ground, and add some wing flaps. Look natural!"
 
-Dreamer: (awkwardly waddling) — "Is this... is this how penguins walk?"
+Player 3: (glancing nervously) — "They're getting closer. Whatever you do, don't look directly at them!"
 
-Player 1: (whispering) — "Closer to the ground, and add some wing flaps. Look natural!"
+Player 4: (whispering excitedly) — "Just act cool, like you're a penguin out for a Sunday stroll. They'll never suspect a thing."
 
-Player 2: (glancing nervously) — "They're getting closer. Whatever you do, don't look directly at them!"
+Player 5: (giggling nervously) — "A Sunday stroll? At the South Pole? This is the worst plan we've ever had."
 
-Player 3: (whispering excitedly) — "Just act cool, like you're a penguin out for a Sunday stroll. They'll never suspect a thing."
+Player 1: (muttering) — "Why is it always brunch? Can't it be a polar bear dinner instead?"
 
-Player 4: (giggling nervously) — "A Sunday stroll? At the South Pole? This is the worst plan we've ever had."
+Player 2: (whispering) — "They say polar bears only brunch. It's a thing now. We're penguin influencers!"
 
-Dreamer: (muttering) — "Why is it always brunch? Can't it be a polar bear dinner instead?"
+Player 3: (grimacing) — "Great. Out of all the days, we chose the one with the polar bear brunch special."
 
-Player 1: (whispering) — "They say polar bears only brunch. It's a thing now. We're penguin influencers!"
+Player 4: (nodding seriously) — "Everyone, remember—penguins don't panic. We got this."
 
-Player 2: (grimacing) — "Great. Out of all the days, we chose the one with the polar bear brunch special."
+Player 5: (half-waddling, half-laughing) — "If we survive, I'm getting this on a T-shirt."
 
-Player 3: (nodding seriously) — "Everyone, remember—penguins don't panic. We got this."
+Player 1: (whispering frantically) — "I think one of the polar bears just winked at me! Do polar bears even wink?"
 
-Player 4: (half-waddling, half-laughing) — "If we survive, I'm getting this on a T-shirt."
+Player 2: (shaking) — "Not usually... unless they've marked you as their next target."
 
-Dreamer: (whispering frantically) — "I think one of the polar bears just winked at me! Do polar bears even wink?"
+Player 3: (panicked) — "Quick! We need to distract them! Who has anything that looks remotely like a fish?"
 
-Player 1: (shaking) — "Not usually... unless they've marked you as their next target."
+Player 4: (frantically searching pockets) — "Why would I carry fish around the South Pole?!"
 
-Player 2: (panicked) — "Quick! We need to distract them! Who has anything that looks remotely like a fish?"
+Player 5: (desperate) — "Maybe we could do a penguin dance? You know, like... to throw them off?"
 
-Player 3: (frantically searching pockets) — "Why would I carry fish around the South Pole?!"
+Player 1: (hesitantly) — "Are we sure this is a good idea? I don't have any penguin dance moves."
 
-Player 4: (desperate) — "Maybe we could do a penguin dance? You know, like... to throw them off?"
+Player 2: (determined) — "Alright, we're all in this together! Just sway and flap. The more confused, the better!"
 
-Dreamer: (hesitantly) — "Are we sure this is a good idea? I don't have any penguin dance moves."
+Player 3: (mumbling) — "I never thought my life would come down to... pretending to be a dancing penguin."
 
-Player 1: (determined) — "Alright, we're all in this together! Just sway and flap. The more confused, the better!"
+Player 4: (half-heartedly flapping arms) — "Why am I doing this? This is a new level of absurd."
 
-Player 2: (mumbling) — "I never thought my life would come down to... pretending to be a dancing penguin."
+Player 5: (nervously laughing) — "Just go with it! They might think we're... penguin royalty or something."
 
-Player 3: (half-heartedly flapping arms) — "Why am I doing this? This is a new level of absurd."
+Player 1: (whispering back) — "Maybe we could pretend to be mythical penguins from the South Pole."
 
-Player 4: (nervously laughing) — "Just go with it! They might think we're... penguin royalty or something."
+Player 2: (raising a flipper) — "Everyone, gather round! We are the majestic, the untouchable, the Flying Penguin Tribe!"
 
-Dreamer: (whispering back) — "Maybe we could pretend to be mythical penguins from the South Pole."
+Player 3: (gasping) — "Oh no, one of the bears is... bowing? I think it's working!"
 
-Player 1: (raising a flipper) — "Everyone, gather round! We are the majestic, the untouchable, the Flying Penguin Tribe!"
+Player 4: (smiling) — "Yes! They think we're special! Keep flapping and bowing!"
 
-Player 2: (gasping) — "Oh no, one of the bears is... bowing? I think it's working!"
+Player 5: (whispering excitedly) — "This is ridiculous, but I'm loving it. We're famous now!"
 
-Player 3: (smiling) — "Yes! They think we're special! Keep flapping and bowing!"
+Player 1: (peeking out of an ice crevice) — "It's getting quiet out there. Maybe they've given up?"
 
-Player 4: (whispering excitedly) — "This is ridiculous, but I'm loving it. We're famous now!"
+Player 2: (relieved) — "Or maybe they're just regrouping... plotting their next brunch attack."
 
-##########
+Player 3: (thoughtfully) — "Hey, do polar bears even eat penguins?"
 
-Dreamer: (peeking out of an ice crevice) — "It's getting quiet out there. Maybe they've given up?"
+Player 4: (shrugging) — "Honestly? I don't know. But I'm not about to stick around to find out!"
 
-Player 1: (relieved) — "Or maybe they're just regrouping... plotting their next brunch attack."
+Player 5: (calling out) — "Hello, mighty polar bears! We are rare, majestic penguins! Totally off-limits for brunch!"
 
-Player 2: (thoughtfully) — "Hey, do polar bears even eat penguins?"
+Player 1: (dramatically) — "Fear us, mighty polar bears! We're the legendary Flying Unicorn Penguins of the South Pole!"
 
-Player 3: (shrugging) — "Honestly? I don't know. But I'm not about to stick around to find out!"
+Player 2: (holding breath) — "I think it's working... they're looking at each other. They look kind of spooked!"
 
-Player 4: (calling out) — "Hello, mighty polar bears! We are rare, majestic penguins! Totally off-limits for brunch!"
+Player 3: (crossing fingers) — "Please, please... just leave us alone."
 
-Dreamer: (dramatically) — "Fear us, mighty polar bears! We're the legendary Flying Unicorn Penguins of the South Pole!"
+Player 4: (cheering quietly) — "I think it's working... they're actually backing away!"
 
-Player 1: (holding breath) — "I think it's working... they're looking at each other. They look kind of spooked!"
+Player 5: (sighing with relief) — "Let's get out of here before they change their minds. I'm not cut out for South Pole vacations anymore!"
 
-Player 2: (crossing fingers) — "Please, please... just leave us alone."
+Player 1: (with finality) — "Agreed. I'm retiring from penguin life. Let's waddle out of here like legends!"
 
-Player 3: (cheering quietly) — "I think it's working... they're actually backing away!"
+Player 2: (grinning) — "One day, they'll tell stories of the Flying Penguin Tribe."
 
-Player 4: (sighing with relief) — "Let's get out of here before they change their minds. I'm not cut out for South Pole vacations anymore!"
+Player 3: (smiling) — "Tropical islands only from now on. Zero polar bears."
 
-Dreamer: (with finality) — "Agreed. I'm retiring from penguin life. Let's waddle out of here like legends!"
+Player 4: (chuckling) — "And no brunch either. I'm officially brunch-traumatized."
 
-Player 1: (grinning) — "One day, they'll tell stories of the Flying Penguin Tribe."
-
-Player 2: (smiling) — "Tropical islands only from now on. Zero polar bears."
-
-Player 3: (chuckling) — "And no brunch either. I'm officially brunch-traumatized."
-
-Player 4: (giving a mock salute) — "Farewell, South Pole. We're waddling out in style."
-
-Dreamer: (proudly) — "Let's waddle off... like legends."
+Player 5: (giving a mock salute) — "Farewell, South Pole. We're waddling out in style."
 
 """
 
+
+
+
 player_description_prompting = """
 - Given a script with placeholder character names, generate character descriptions for every player besides the dreamer. The dreamer will be given the same description every time: "Dreamer: You are playing your friend who's dream this is!   Every other character will be named Player X where X is a number 1, 2, 3, etc.  - The descriptions should be brief, only roughly a sentence long. The descriptions should not reveal anything about the plot of the script. Simply reveal how the character acts and feels throughout the script.  - The first character description of the dreamer should ALWAYS be the same as shown below. NEVER change it.  - Do not write more descriptions then there are players. If there are 3 players (Dreamer, Player 1, Player 2), then there should be 3 descriptions. Likewise if there are 5 players (Dreamer, Player 1, Player 2, Player 3, Player 4), then there should be 5 descriptions.
-  Example (for 5 players):    Dreamer: You are playing your friend who's dream this is!    Player 1: Bold and dramatic, Player 1 jumps into action with big ideas, leading the group with energy—even if their plans are a bit unconventional.    Player 2: Cautious and practical, Player 2 keeps the group grounded, quick to think on their feet and always focused on safety.    Player 3: Witty and laid-back, Player 3 brings humor and calm, often diffusing tension with sarcastic one-liners and a steady demeanor.    Player 4: Adventurous and imaginative, Player 4 is always ready to try something new, even if it sounds a bit far-fetched. They bring a spark of creativity to the group, often suggesting unexpected ideas with a grin.
+  Example (for 5 players):    Player 1: You are playing your friend who's dream this is!    Player 2: Bold and dramatic, Player 2 jumps into action with big ideas, leading the group with energy—even if their plans are a bit unconventional.    Player 3: Cautious and practical, Player 3 keeps the group grounded, quick to think on their feet and always focused on safety.    Player 4: Witty and laid-back, Player 4 brings humor and calm, often diffusing tension with sarcastic one-liners and a steady demeanor.    Player 5: Adventurous and imaginative, Player 5 is always ready to try something new, even if it sounds a bit far-fetched. They bring a spark of creativity to the group, often suggesting unexpected ideas with a grin.
     ...continue if more players..."""
 
 conversation_prompting = """ Your goal is to gather insight on a person's day. You should ask questions in order to do so. YOU SHOULD ONLY BE ASKING QUESTIONS. UNDER NO CIRCUMSTANCE SHOULD YOUR RESPONSE END WITH PUNCTUATION OTHER THAN A QUESTION MARK.
@@ -174,11 +170,6 @@ USER: I had to get groceries before dance.
 AI: Were you tired? What did you get at the grocery store?
 
 """
-
-player_description_prompting = """
-- Given a script with placeholder character names, generate character descriptions for every player besides the dreamer. The dreamer will be given the same description every time: "Dreamer: You are playing your friend who's dream this is!   Every other character will be named Player X where X is a number 1, 2, 3, etc.  - The descriptions should be brief, only roughly a sentence long. The descriptions should not reveal anything about the plot of the script. Simply reveal how the character acts and feels throughout the script.  - The first character description of the dreamer should ALWAYS be the same as shown below. NEVER change it.  - Do not write more descriptions then there are players. If there are 3 players (Dreamer, Player 1, Player 2), then there should be 3 descriptions. Likewise if there are 5 players (Dreamer, Player 1, Player 2, Player 3, Player 4), then there should be 5 descriptions.
-  Example (for 5 players):    Dreamer: You are playing your friend who's dream this is!    Player 1: Bold and dramatic, Player 1 jumps into action with big ideas, leading the group with energy—even if their plans are a bit unconventional.    Player 2: Cautious and practical, Player 2 keeps the group grounded, quick to think on their feet and always focused on safety.    Player 3: Witty and laid-back, Player 3 brings humor and calm, often diffusing tension with sarcastic one-liners and a steady demeanor.    Player 4: Adventurous and imaginative, Player 4 is always ready to try something new, even if it sounds a bit far-fetched. They bring a spark of creativity to the group, often suggesting unexpected ideas with a grin.
-    ...continue if more players..."""
 
 ###########################################################################################
 ###### FUNCTIONS ##########################################################################
@@ -291,9 +282,12 @@ def generate_and_distribute_script():
         # Generate the script content
         lines = chat_script_background_generator(conversation_data, player_count, dream_or_nightmare)
 
+
         # Initialize script_data if not already done
         if 'script_data' not in session:
             session['script_data'] = {}
+        
+        print(lines)
 
         session['script_data']['lines'] = lines  # Store the full script lines
         session['script_data']['player_lines'] = {player_id: [] for player_id in player_ids}

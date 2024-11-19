@@ -243,9 +243,10 @@
         }
 
         if (data.end_chat) {
-          document.getElementById('chat-input').disabled = true;
-          document.getElementById('chat-button').textContent = 'Generate Script';
-          document.getElementById('chat-button').onclick = prepareForScriptGeneration;
+          document.getElementById('chat-input').style.display = 'none';
+          document.getElementById('chat-button').style.display = 'none';
+          prepareForScriptGeneration()
+          
         }
       } catch (error) {
         console.error('Error fetching question:', error);
