@@ -19,7 +19,6 @@ app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
 # OpenAI and Vonage setup
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 VONAGE_API_KEY = "6d354b30"
 VONAGE_API_SECRET = "W9Uz3r7eSmCEIXk7"
 VONAGE_FROM_NUMBER = "18592672455"
@@ -51,14 +50,28 @@ You are a script generator for the web game 'Dream Machine'. Please follow these
 - **Creative Freedom**: Feel free to take creative liberties when generating the script. Do not explicity use the user inputs as they should primarily be used as starter thoughts to the actual story within the script. 
 - **Total Characters**: Include exactly [player_count] number of characters. Do not add or skip any characters based on the input player_count.
 - **Tone**: Match the user-chosen tone (whimsical for dreams, eerie yet comical for nightmares).
-- **Structure**: Divide the script into three sections—Beginning, Middle, End—each separated by exactly two dividers ("##########").
+- **Structure**: Character descriptions, beginning, middle, and end. Start by giving short and simple character descriptions of each character. Then, provide the script split into 3 sections: beginning, middle, and end.
 - **Length**: Each section should contain approximately 20-25 lines total, ensuring a longer script.
 - **Character Lines**: Each character should have at least 4-5 lines per section to maintain a balanced dialogue.
 - **Story Style**: The script should be humorous and improv-like, with surprising twists and exaggerated interactions that bring out the bizarre nature of dreams or nightmares. The Dreamer is a participant but should not lead the conversation.
 - **Words to Avoid**: NEVER include words like 'dream' or 'nightmare', and NEVER discuss the script taking place within a 'dream' or 'nightmare'. Also avoid utilizing words from this prompt itself such as 'bizarre', 'whimsical', or 'comical'.
-- **IMPORTANT**: There should be *only three sections* (Beginning, Middle, End), separated by exactly two dividers ("##########"). Do not add additional sections or change this structure. Keep the script exactly to these boundaries without embellishments.
+
 
 Example Script for 5 Players
+Character Descriptions:
+
+Player 1: Doctor who takes care of the patients
+
+Player 2: Patient who is scared they have an illness
+
+Player 3: Friend who helps patient
+
+Player 4: Mom of patient
+
+Player 5: Dad of patient
+
+Beginning:
+
 Player 1: (confused) — "Why is everyone wearing penguin suits?"
 
 Player 2: (yelling) — "Because the polar bears are coming for brunch!"
@@ -80,6 +93,8 @@ Player 4: (whispering excitedly) — "Just act cool, like you're a penguin out f
 Player 5: (giggling nervously) — "A Sunday stroll? At the South Pole? This is the worst plan we've ever had."
 
 Player 1: (muttering) — "Why is it always brunch? Can't it be a polar bear dinner instead?"
+
+Middle:
 
 Player 2: (whispering) — "They say polar bears only brunch. It's a thing now. We're penguin influencers!"
 
@@ -104,6 +119,8 @@ Player 1: (hesitantly) — "Are we sure this is a good idea? I don't have any pe
 Player 2: (determined) — "Alright, we're all in this together! Just sway and flap. The more confused, the better!"
 
 Player 3: (mumbling) — "I never thought my life would come down to... pretending to be a dancing penguin."
+
+End:
 
 Player 4: (half-heartedly flapping arms) — "Why am I doing this? This is a new level of absurd."
 
@@ -206,8 +223,11 @@ def chat_script_background_generator(conversation_data, player_count, dream_or_n
     )
 
     script = response.choices[0].message.content.strip()
+    print(script)
     lines = script.split("\n\n")
     lines = [line.strip() for line in lines if line.strip()]
+    print("Lines")
+    print(lines)
     return lines
 
 def player_description_generator(script):
@@ -287,7 +307,6 @@ def generate_and_distribute_script():
         if 'script_data' not in session:
             session['script_data'] = {}
         
-        print(lines)
 
         session['script_data']['lines'] = lines  # Store the full script lines
         session['script_data']['player_lines'] = {player_id: [] for player_id in player_ids}
@@ -360,6 +379,8 @@ def display_script():
             # Check if the line belongs to the current player
             if line.startswith(role_map[player_id]):
                 formatted_lines.append(line)  # Include the line
+            elif line.startswith("Character Descriptions:") or line.startswith("Beginning:") or line.startswith("Middle:") or line.startswith("End:"):
+                formatted_lines.append(line)
             else:
                 # Find the role of the player to whom the line belongs
                 other_role = next((role for role in role_map.values() if line.startswith(role)), None)
