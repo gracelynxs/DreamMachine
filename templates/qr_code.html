@@ -45,6 +45,8 @@
   <h1>Share Your Script</h1>
   <div id="qrCodeCanvas"></div>
   <p id="scriptLink"></p>
+
+  <button onclick="window.location.href='/backdrops'" class="backdrop-btn">Generate Backdrops</button>
   <button onclick="window.location.href='/'">Start Over</button>
 
   <script>
@@ -71,6 +73,8 @@
       scriptLinkText.textContent = "Error: No script link provided.";
       scriptLinkText.style.color = "#ff0000"; // Highlight error in red
     }
+
+    
   </script>
 </body>
 </html>

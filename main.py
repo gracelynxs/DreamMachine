@@ -1,12 +1,12 @@
 from openai import OpenAI
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect
 import vonage
 import os
 from dotenv import load_dotenv
 import re
 from uuid import uuid4
 from flask_session import Session
-import random
+import time
 
 # Load environment variables
 load_dotenv()
@@ -22,6 +22,7 @@ Session(app)
 VONAGE_API_KEY = "6d354b30"
 VONAGE_API_SECRET = "W9Uz3r7eSmCEIXk7"
 VONAGE_FROM_NUMBER = "18592672455"
+
 
 # Initialize Vonage client
 client_vonage = vonage.Client(key=VONAGE_API_KEY, secret=VONAGE_API_SECRET)
@@ -388,5 +389,74 @@ def display_script():
         return jsonify({'lines': formatted_lines}), 200
 
 
+@app.route('/test-qr')
+def test_qr():
+    return render_template('qr_code.html')
+
+
+# Update the backdrop routes
+@app.route('/backdrops')
+def backdrops():
+    return render_template('backdrops.html')
+
+@app.route('/generate-backdrop', methods=['POST'])
+def generate_backdrop():
+    try:
+        data = request.get_json()
+        scene_type = data.get('scene')
+        script_data = session.get('script_data', {})
+        lines = script_data.get('lines', [])
+
+        # Extract relevant lines based on scene type
+        scene_lines = []
+        in_section = False
+        section_count = 0
+
+        if scene_type == 'beginning':
+            target_section = "Beginning:"
+        elif scene_type == 'middle':
+            target_section = "Middle:"
+        else:
+            target_section = "End:"
+
+        # Extract 3 lines from the appropriate section
+        for line in lines:
+            if line.startswith(target_section):
+                in_section = True
+                continue
+            if in_section and section_count < 3 and ":" in line:
+                # Extract the dialogue part after the character name
+                dialogue = line.split(":", 1)[1].strip()
+                scene_lines.append(dialogue)
+                section_count += 1
+
+        # Combine lines for the prompt
+        scene_description = " ".join(scene_lines)
+        prompt = f"Create a detailed scene image based on this script excerpt: {scene_description}. Make it dreamlike and surreal, with vibrant colors and fantastical elements."
+
+        # Generate image using OpenAI
+        response = client.images.generate(
+            model="dall-e-3",
+            prompt=prompt,
+            size="1024x1024",
+            quality="standard",
+            n=1,
+        )
+
+        image_url = response.data[0].url
+
+        return jsonify({
+            'status': 'success',
+            'image_url': image_url,
+            'scene': scene_type
+        })
+
+    except Exception as e:
+        print(f"Error generating backdrop: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': 'Error generating backdrop'
+        }), 500
+    
 if __name__ == '__main__':
     app.run(debug=True)
