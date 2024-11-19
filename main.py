@@ -432,7 +432,7 @@ def generate_backdrop():
 
         # Combine lines for the prompt
         scene_description = " ".join(scene_lines)
-        prompt = f"Create a detailed scene image based on this script excerpt: {scene_description}. Make it dreamlike and surreal, with vibrant colors and fantastical elements."
+        prompt = f"Create a detailed scene image based on this script excerpt: {scene_description}. Make it dreamlike and surreal, with vibrant colors and fantastical elements. No text. No writing. No words."
 
         # Generate image using OpenAI
         response = client.images.generate(
