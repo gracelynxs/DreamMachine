@@ -6,32 +6,24 @@
     <title>Backdrops - DreamMachine</title>
     <style>
         body {
-        font-family: 'Courier New', Courier, monospace;
-        margin: 0;
-        padding: 20px;
-        background: #fd79a8;
-        color: #ffffff;
-        text-shadow: 1px 1px 2px #2d3436;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            background: #fd79a8;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px #2d3436;
         }
         h1, h3, p, label {
-        margin-bottom: 10px;
+            margin-bottom: 10px;
         }
         h1 {
-        font-size: 2.5rem;
-        text-align: center;
-        color: #ffeaa7;
-        text-shadow: 2px 2px 5px #6c5ce7;
+            font-size: 2.5rem;
+            text-align: center;
+            color: #ffeaa7;
+            text-shadow: 2px 2px 5px #6c5ce7;
         }
         #backdrop-section {
             text-align: center;
-        }
-
-        #backdrop-list {
-            margin: 2rem 0;
-            text-align: left;
-            padding: 1rem;
-            background-color: #F3F4F6;
-            border-radius: 0.5rem;
         }
 
         #backdrop-preview {
@@ -60,86 +52,83 @@
             border: none;
         }
 
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Scene Backdrops</h1>
-        
-        <div class="scene-selector">
-            <button class="scene-btn" onclick="selectScene('beginning')">Beginning Scene</button>
-            <button class="scene-btn" onclick="selectScene('middle')">Middle Scene</button>
-            <button class="scene-btn" onclick="selectScene('end')">End Scene</button>
-        </div>
+        <h1>Generate Scene Backdrops</h1>
 
         <div id="backdrop-preview">
-            Select a scene to generate its backdrop
+            <p>Click below to generate all three scene backdrops.</p>
         </div>
 
-        <div class="loading">
+        <div class="loading" id="loading-message">
             <div class="loading-spinner"></div>
-            <p>Generating backdrop... This may take a few moments.</p>
+            <p>Generating backdrops... This may take a few moments.</p>
         </div>
 
         <div class="button-container">
-            <button onclick="generateBackdrop()" class="generate-btn">Generate Backdrop</button>
+            <button id="generateBtn" onclick="generateAllBackdrops()" class="generate-btn">Generate All Backdrops</button>
             <button onclick="window.location.href='/'" class="home-btn">Back to Home</button>
         </div>
     </div>
 
     <script>
-        let selectedScene = null;
+        function generateAllBackdrops() {
+            // Hide the "Generate All Backdrops" button once clicked
+            document.getElementById('generateBtn').style.display = 'none';
 
-        function selectScene(scene) {
-            selectedScene = scene;
-            // Update button states
-            document.querySelectorAll('.scene-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.textContent.toLowerCase().includes(scene)) {
-                    btn.classList.add('active');
-                }
+            // Show loading message
+            document.getElementById('loading-message').style.display = 'block';
+            document.getElementById('backdrop-preview').innerHTML = ''; // Clear previous content
+
+            // Define the scenes to generate backdrops for
+            const scenes = ['beginning', 'middle', 'end'];
+
+            // Create an array of promises to fetch each backdrop
+            const promises = scenes.map(scene => {
+                return fetch('/generate-backdrop', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ scene: scene })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const img = document.createElement('img');
+                        img.src = data.image_url;
+                        img.alt = `${data.scene} scene backdrop`;
+                        img.style.margin = '10px';
+                        img.style.width = `${img.width * 0.85}px`;  // 85% of the current width
+                        img.style.height = `${img.height * 0.85}px`;
+                        document.getElementById('backdrop-preview').appendChild(img);
+                    } else {
+                        const errorMessage = document.createElement('p');
+                        errorMessage.textContent = `Error generating backdrop for ${scene}. Please try again.`;
+                        document.getElementById('backdrop-preview').appendChild(errorMessage);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const errorMessage = document.createElement('p');
+                    errorMessage.textContent = `Error generating backdrop for ${scene}. Please try again.`;
+                    document.getElementById('backdrop-preview').appendChild(errorMessage);
+                });
             });
-        }
 
-        function generateBackdrop() {
-            if (!selectedScene) {
-                alert('Please select a scene first');
-                return;
-            }
-
-            // Show loading state
-            document.querySelector('.loading').style.display = 'block';
-            document.getElementById('backdrop-preview').innerHTML = '';
-
-            fetch('/generate-backdrop', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ scene: selectedScene })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Hide loading state
-                document.querySelector('.loading').style.display = 'none';
-
-                if (data.status === 'success') {
-                    const img = document.createElement('img');
-                    img.src = data.image_url;
-                    img.alt = `${data.scene} scene backdrop`;
-                    document.getElementById('backdrop-preview').appendChild(img);
-                } else {
-                    document.getElementById('backdrop-preview').textContent = 
-                        'Error generating backdrop. Please try again.';
-                }
-            })
-            .catch(error => {
-                // Hide loading state
-                document.querySelector('.loading').style.display = 'none';
-                console.error('Error:', error);
-                document.getElementById('backdrop-preview').textContent = 
-                    'Error generating backdrop. Please try again.';
-            });
+            // Wait for all promises to resolve
+            Promise.all(promises)
+                .then(() => {
+                    // Hide loading message once all backdrops are generated
+                    document.getElementById('loading-message').style.display = 'none';
+                });
         }
     </script>
 </body>
