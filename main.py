@@ -19,7 +19,11 @@ app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
 # OpenAI and Vonage setup
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY')) 
+api_key = os.environ.get('OPENAI_API_KEY')
+if not api_key:
+    raise ValueError("No OpenAI API key found. Make sure OPENAI_API_KEY environment variable is set")
+
+client = OpenAI(api_key=api_key)
 VONAGE_API_KEY = "6d354b30"
 VONAGE_API_SECRET = "W9Uz3r7eSmCEIXk7"
 VONAGE_FROM_NUMBER = "18592672455"
