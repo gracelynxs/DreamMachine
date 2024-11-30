@@ -57,6 +57,22 @@
             text-align: center;
             margin-top: 1rem;
         }
+        #fullscreenButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #ffeaa7;
+            color: #2d3436;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s ease;
+        }
+        #fullscreenButton:hover {
+            background-color: #fdcb6e;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +89,7 @@
         </div>
 
         <div class="button-container">
+            <button id="fullscreenButton" onclick="toggleFullScreen()">Fullscreen</button>
             <button id="generateBtn" onclick="generateAllBackdrops()" class="generate-btn">Generate All Backdrops</button>
             <button onclick="window.location.href='/'" class="home-btn">Back to Home</button>
         </div>
@@ -130,6 +147,19 @@
                     document.getElementById('loading-message').style.display = 'none';
                 });
         }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                localStorage.setItem("fullscreen", "true");
+                });
+            } else if (document.exitFullscreen) {
+                document.exitFullscreen().then(() => {
+                localStorage.setItem("fullscreen", "false");
+                });
+            }
+        }
+        
     </script>
 </body>
 </html>
