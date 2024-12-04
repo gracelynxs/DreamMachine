@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Lines</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      background: #fd79a8;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px #2d3436;
+    }
+    h1, h3, label {
+      color: #ffeaa7;
+      text-shadow: 2px 2px 5px #6c5ce7;
+    }
+    button, input {
+      margin-top: 10px;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      transition: 0.3s;
+      background: #ffeaa7;
+      color: #2d3436;
+      cursor: pointer;
+    }
+    button:hover, input:hover {
+      background: #fdcb6e;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    }
+    #lines-container {
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 10px;
+    }
+    .line {
+      margin: 5px 0;
+    }
+    .line.placeholder {
+      color: #ffeaa7;
+      font-style: italic;
+    }
+    .line.player-line {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Player Lines</h1>
+    <label for="player-id">Enter Your Player ID</label>
+    <input type="text" id="player-id" placeholder="Player ID">
+    <button onclick="getPlayerLines()">Get My Lines</button>
+    <div id="lines-container"></div>
+  </div>
+
+  <script>
+    async function getPlayerLines() {
+      const playerId = document.getElementById("player-id").value;
+
+      if (!playerId) {
+        alert("Please enter your player ID.");
+        return;
+      }
+
+      try {
+        const response = await fetch("/display-script", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ player_id: playerId }),
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          alert(data.error);
+        } else {
+          const linesContainer = document.getElementById("lines-container");
+          linesContainer.innerHTML = "<h3>Your Lines:</h3>";
+
+          data.lines.forEach((line) => {
+            const lineElement = document.createElement("p");
+            lineElement.textContent = line;
+            lineElement.className = "line";
+
+            if (line.includes("[Waiting for their turn...]")) {
+              lineElement.classList.add("placeholder");
+            } else {
+              lineElement.classList.add("player-line");
+            }
+            linesContainer.appendChild(lineElement);
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching lines:", error);
+      }
+    }
+  </script>
+</body>
+</html>
