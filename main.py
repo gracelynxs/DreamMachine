@@ -23,7 +23,8 @@ print(os.getenv('OPENAI_API_KEY'))  # Check if this prints your actual key
 
 # OpenAI and Vonage setup
 
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+# client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+client = OpenAI(api_key="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")
 
 VONAGE_API_KEY = "6d354b30"
 VONAGE_API_SECRET = "W9Uz3r7eSmCEIXk7"
@@ -394,6 +395,22 @@ def display_script():
         # Return the formatted lines for the current player
         return jsonify({'lines': formatted_lines}), 200
 
+
+@app.route('/script_pages/scriptP1.html')
+def test_qr_1():
+    return render_template('script_pages/scriptP1.html')
+
+@app.route('/script_pages/scriptP2.html')
+def test_qr_2():
+    return render_template('script_pages/scriptP2.html')
+
+@app.route('/script_pages/scriptP3.html')
+def test_qr_3():
+    return render_template('script_pages/scriptP3.html')
+
+@app.route('/script_pages/scriptP4.html')
+def test_qr_4():
+    return render_template('script_pages/scriptP4.html')
 
 @app.route('/test-qr')
 def test_qr():

@@ -233,23 +233,27 @@
 
     async function getAgentQuestion() {
       try {
-        const response = await fetch('/get-next-question', {
-          method: 'GET',
-        });
-        const data = await response.json();
+          const response = await fetch('/get-next-question', {
+              method: 'GET',
+          });
+          const data = await response.json();
 
-        if (data.question) {
-          sendAgentMessage(data.question);
-        }
+          if (data.question) {
+              sendAgentMessage(data.question);
+          }
 
-        if (data.end_chat) {
-          document.getElementById('chat-input').style.display = 'none';
-          document.getElementById('chat-button').style.display = 'none';
-          prepareForScriptGeneration()
-          
-        }
+          if (data.end_chat) {
+              document.getElementById('chat-input').style.display = 'none';
+              document.getElementById('chat-button').style.display = 'none';
+              
+              // Add a delay of 5 seconds before redirecting
+              setTimeout(() => {
+                  const scriptLink = `${window.location.origin}/display-script`;
+                  window.location.href = `/qr-code?scriptLink=${encodeURIComponent(scriptLink)}`;
+              }, 10000); // 5000 milliseconds = 5 seconds
+          }
       } catch (error) {
-        console.error('Error fetching question:', error);
+          console.error('Error fetching question:', error);
       }
     }
 
