@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>QR Code - DreamMachine</title>
+  <title>QR Codes - DreamMachine</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     body {
@@ -18,14 +18,30 @@
       color: #ffeaa7;
       margin-bottom: 20px;
     }
-    #qrCodeCanvas {
-      margin: 20px auto;
+    .qr-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
     }
-    #scriptLink {
-      margin-top: 10px;
+    .qr-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .qr-label {
       font-size: 1.2rem;
-      color: #ffeaa7;
-      word-wrap: break-word;
+      color: #2d3436;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .button-container {
+      margin-top: 20px;
     }
     button {
       padding: 10px 20px;
@@ -35,6 +51,7 @@
       background: #ffeaa7;
       color: #2d3436;
       cursor: pointer;
+      margin: 0 10px;
     }
     button:hover {
       background: #fdcb6e;
@@ -42,39 +59,52 @@
   </style>
 </head>
 <body>
-  <h1>Share Your Script</h1>
-  <div id="qrCodeCanvas"></div>
-  <p id="scriptLink"></p>
-
-  <button onclick="window.location.href='/backdrops'" class="backdrop-btn">Backdrops</button>
-  <button onclick="window.location.href='/'">Start Over</button>
+  <h1>Share Your Scripts</h1>
+  <div class="qr-container">
+    <div class="qr-box">
+      <div class="qr-label">Player 1</div>
+      <div id="qrCode1"></div>
+    </div>
+    <div class="qr-box">
+      <div class="qr-label">Player 2</div>
+      <div id="qrCode2"></div>
+    </div>
+    <div class="qr-box">
+      <div class="qr-label">Player 3</div>
+      <div id="qrCode3"></div>
+    </div>
+    <div class="qr-box">
+      <div class="qr-label">Player 4</div>
+      <div id="qrCode4"></div>
+    </div>
+  </div>
+  <div class="button-container">
+    <button onclick="window.location.href='/backdrops'" class="backdrop-btn">Backdrops</button>
+    <button onclick="window.location.href='/'">Start Over</button>
+  </div>
 
   <script>
-    // Get the script link from the URL parameters
-    const scriptLink = decodeURIComponent(new URLSearchParams(window.location.search).get('scriptLink'));
-    const qrCanvas = document.getElementById('qrCodeCanvas');
-    const scriptLinkText = document.getElementById('scriptLink');
+    // Function to generate QR code
+    function generateQRCode(elementId, scriptPath) {
+      // Get the current hostname and protocol
+      const baseUrl = window.location.protocol + '//' + window.location.host;
+      const fullUrl = baseUrl + '/' + scriptPath;
 
-    if (scriptLink) {
-      // Show the script link as fallback text
-      scriptLinkText.textContent = scriptLink;
-
-      // Generate the QR code
-      new QRCode(qrCanvas, {
-        text: scriptLink,
-        width: 200,  // QR code width
-        height: 200, // QR code height
-        colorDark: "#000000",  // QR code dark color
-        colorLight: "#ffffff", // QR code light color
+      new QRCode(document.getElementById(elementId), {
+        text: fullUrl,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
-    } else {
-      // Display an error if the link is missing
-      scriptLinkText.textContent = "Error: No script link provided.";
-      scriptLinkText.style.color = "#ff0000"; // Highlight error in red
     }
 
-    
+    // Generate QR codes for each player
+    generateQRCode('qrCode1', 'script_pages/scriptP1.html');
+    generateQRCode('qrCode2', 'script_pages/scriptP2.html');
+    generateQRCode('qrCode3', 'script_pages/scriptP3.html');
+    generateQRCode('qrCode4', 'script_pages/scriptP4.html');
   </script>
 </body>
 </html>

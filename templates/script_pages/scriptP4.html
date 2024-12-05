@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Lines</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      background: #fd79a8;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px #2d3436;
+    }
+    h1, h3, label {
+      color: #ffeaa7;
+      text-shadow: 2px 2px 5px #6c5ce7;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    }
+    #lines-container {
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 10px;
+    }
+    #character-description {
+      margin: 20px 0;
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      color: #ffeaa7;
+      text-shadow: 2px 2px 4px #6c5ce7;
+    }
+    .line {
+      margin: 5px 0;
+    }
+    .line.placeholder {
+      color: #ffeaa7;
+    }
+    .line.queue {
+      font-style: italic;
+    }
+    .line.player-line {
+      font-weight: bold;
+    }
+    .line.section {
+      font-weight: bold;
+      text-align: center;
+      color: #c5c0ed;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Player Lines</h1>
+    <div id="character-description"></div>
+    <div id="lines-container"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", getPlayerLines);
+
+    function getPlayerLines() {
+      const data = {
+        player_description: ["Player 4: A calm and collected deer, always ready to lend a helping hoof."],
+        lines: [
+          "Beginning:",
+          "Player 1: [Waiting for their turn...]",
+          "Player 2: [Waiting for their turn...]",
+          "Your Queue: (excitedly) — \"A project? I love projects! Can we use acorns?\"",
+          "Your Line: (calmly) — \"Let's first understand what we need to do.\"",
+          "Player 1: [Waiting for their turn...]",
+          "Player 2: [Waiting for their turn...]",
+          "Your Queue: (jumping around) — \"I can gather the acorns! And the leaves! And the twigs!\"",
+          "Your Line: (nodding) — \"That's a good start. Let's divide the tasks.\"",
+          "Player 1: [Waiting for their turn...]",
+          "Player 2: [Waiting for their turn...]",
+          "Middle:",
+          "Your Queue: (giggling) — \"I found the biggest acorn ever! It's as big as my head!\"",
+          "Your Line: (laughing) — \"That's great, but we need smaller ones for the project.\"",
+          "Player 1: [Waiting for their turn...]",
+          "Player 2: [Waiting for their turn...]",
+          "Your Queue: (panting) — \"I've gathered all the acorns, leaves, and twigs we need!\"",
+          "Your Line: (smiling) — \"Good job! Now let's put everything together.\"",
+          "Player 1: [Waiting for their turn...]",
+          "Player 2: [Waiting for their turn...]",
+          "Your Queue: (excitedly) — \"I can't wait to see the finished project!\"",
+          "Your Line: (calmly) — \"We're almost there. Let's keep going.\"",
+          "End:",
+          "Player 1: [Waiting for their turn...]",
+          "Player 2: [Waiting for their turn...]",
+          "Your Queue: (jumping around) — \"It's the best treehouse ever! Can we do this again?\"",
+          "Your Line: (smiling) — \"Maybe next time. But for now, let's enjoy our hard work.\"",
+          "Player 1: [Waiting for their turn...]",
+          "Player 2: [Waiting for their turn...]",
+          "Your Queue: (excitedly) — \"I had so much fun! Can't wait for our next adventure!\"",
+          "Your Line: (calmly) — \"Yes, it was a good day. Now, let's rest.\"",
+          "Player 1: [Waiting for their turn...]",
+          "Player 2: [Waiting for their turn...]",
+          "Your Queue: (yawning) — \"Goodnight! I'll dream of acorns and treehouses!\"",
+          "Your Line: (quietly) — \"Goodnight. Sleep well, everyone.\""
+        ]
+      };
+
+      const characterDescription = document.getElementById("character-description");
+      characterDescription.innerHTML = data.player_description.map(desc => `<p>${desc}</p>`).join("");
+
+      const linesContainer = document.getElementById("lines-container");
+      linesContainer.innerHTML = ""; // Clear previous lines
+
+      data.lines.forEach((line) => {
+        const lineElement = document.createElement("p");
+        lineElement.textContent = line;
+        lineElement.className = "line";
+
+        if (line.startsWith("Your Line:")) {
+          lineElement.classList.add("player-line");
+        } else if (line.startsWith("Your Queue:")) {
+          lineElement.classList.add("queue");
+        } else if (line.endsWith(":")) {
+          lineElement.classList.add("section");
+        } else {
+          lineElement.classList.add("placeholder");
+        }
+        linesContainer.appendChild(lineElement);
+      });
+    }
+  </script>
+</body>
+</html>

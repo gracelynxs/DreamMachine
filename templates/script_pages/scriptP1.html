@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Lines</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      background: #fd79a8;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px #2d3436;
+    }
+    h1, h3, label {
+      color: #ffeaa7;
+      text-shadow: 2px 2px 5px #6c5ce7;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    }
+    #lines-container {
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 10px;
+    }
+    #character-description {
+      margin: 20px 0; /* Adds space between input section and description */
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      color: #ffeaa7;
+      text-shadow: 2px 2px 4px #6c5ce7;
+    }
+    .line {
+      margin: 5px 0;
+    }
+    .line.placeholder {
+      color: #ffeaa7;
+    }
+    .line.queue {
+      font-style: italic;
+    }
+    .line.player-line {
+      font-weight: bold;
+    }
+    .line.section {
+      font-weight: bold;
+      text-align: center;
+      color: #c5c0ed;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Player Lines</h1>
+    <div id="character-description"></div>
+    <div id="lines-container"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", getPlayerLines);
+
+    function getPlayerLines() {
+      const data = {
+        player_description: ["Player 1: A hardworking beaver, always busy building something."],
+        lines: [
+          "Beginning:",
+          "Your Line: (panting) — \"Why are we all in a treehouse?\"",
+          "Player 2: [Waiting for their turn...]",
+          "Player 3: [Waiting for their turn...]",
+          "Your Queue: (calmly) — \"Let's first understand what we need to do.\"",
+          "Your Line: (nervously) — \"I hope it's not due tonight. I have a dam to build.\"",
+          "Player 2: [Waiting for their turn...]",
+          "Player 3: [Waiting for their turn...]",
+          "Your Queue: (nodding) — \"That's a good start. Let's divide the tasks.\"",
+          "Your Line: (sighing) — \"I guess I'll handle the construction then.\"",
+          "Player 2: [Waiting for their turn...]",
+          "Middle:",
+          "Player 3: [Waiting for their turn...]",
+          "Your Queue: (laughing) — \"That's great, but we need smaller ones for the project.\"",
+          "Your Line: (grunting) — \"This is harder than building a dam. But we're making progress.\"",
+          "Player 2: [Waiting for their turn...]",
+          "Player 3: [Waiting for their turn...]",
+          "Your Queue: (smiling) — \"Good job! Now let's put everything together.\"",
+          "Your Line: (focused) — \"We're almost done. Just a few more touches.\"",
+          "Player 2: [Waiting for their turn...]",
+          "Player 3: [Waiting for their turn...]",
+          "Player 4: [Waiting for their turn...]",
+          "End:",
+          "Your Line: (tired but happy) — \"We did it! The treehouse is complete!\"",
+          "Player 2: [Waiting for their turn...]",
+          "Player 3: [Waiting for their turn...]",
+          "Your Queue: (smiling) — \"Maybe next time. But for now, let's enjoy our hard work.\"",
+          "Your Line: (sighing) — \"I can finally relax. No more projects for today.\"",
+          "Player 2: [Waiting for their turn...]",
+          "Player 3: [Waiting for their turn...]",
+          "Your Queue: (calmly) — \"Yes, it was a good day. Now, let's rest.\"",
+          "Your Line: (contentedly) — \"I agree. Goodnight, everyone.\"",
+          "Player 2: [Waiting for their turn...]",
+          "Player 3: [Waiting for their turn...]",
+          "Player 4: [Waiting for their turn...]"
+        ]
+      };
+
+      const characterDescription = document.getElementById("character-description");
+      characterDescription.innerHTML = data.player_description.map(desc => `<p>${desc}</p>`).join("");
+
+      const linesContainer = document.getElementById("lines-container");
+      linesContainer.innerHTML = ""; // Clear previous lines
+
+      data.lines.forEach((line) => {
+        const lineElement = document.createElement("p");
+        lineElement.textContent = line;
+        lineElement.className = "line";
+
+        if (line.startsWith("Your Line:")) {
+          lineElement.classList.add("player-line");
+        } else if (line.startsWith("Your Queue:")) {
+          lineElement.classList.add("queue");
+        } else if (line.endsWith(":")) {
+          lineElement.classList.add("section");
+        } else {
+          lineElement.classList.add("placeholder");
+        }
+        linesContainer.appendChild(lineElement);
+      });
+    }
+  </script>
+</body>
+</html>

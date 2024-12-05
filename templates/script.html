@@ -52,6 +52,9 @@
       color: #ffeaa7;
       font-style: italic;
     }
+    .line.player-line {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -94,11 +97,11 @@
             lineElement.textContent = line;
             lineElement.className = "line";
 
-            // Add placeholder style for other players' turns
-            if (line.includes("[It's their turn]")) {
+            if (line.includes("[Waiting for their turn...]")) {
               lineElement.classList.add("placeholder");
+            } else {
+              lineElement.classList.add("player-line");
             }
-
             linesContainer.appendChild(lineElement);
           });
         }

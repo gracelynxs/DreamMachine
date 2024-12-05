@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Lines</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      background: #fd79a8;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px #2d3436;
+    }
+    h1, h3, label {
+      color: #ffeaa7;
+      text-shadow: 2px 2px 5px #6c5ce7;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    }
+    #lines-container {
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 10px;
+    }
+    #character-description {
+      margin: 20px 0;
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      color: #ffeaa7;
+      text-shadow: 2px 2px 4px #6c5ce7;
+    }
+    .line {
+      margin: 5px 0;
+    }
+    .line.placeholder {
+      color: #ffeaa7;
+    }
+    .line.queue {
+      font-style: italic;
+    }
+    .line.player-line {
+      font-weight: bold;
+    }
+    .line.section {
+      font-weight: bold;
+      text-align: center;
+      color: #c5c0ed;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Player Lines</h1>
+    <div id="character-description"></div>
+    <div id="lines-container"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", getPlayerLines);
+
+    function getPlayerLines() {
+      const data = {
+        player_description: ["Player 3: A playful squirrel, always running around and causing mischief."],
+        lines: [
+          "Beginning:",
+          "Player 1: [Waiting for their turn...]",
+          "Your Queue: (looking around) — \"It seems we've been tasked with a project.\"",
+          "Your Line: (excitedly) — \"A project? I love projects! Can we use acorns?\"",
+          "Player 4: [Waiting for their turn...]",
+          "Player 1: [Waiting for their turn...]",
+          "Your Queue: (wisely) — \"No, it's not due tonight. But we should start working on it.\"",
+          "Your Line: (jumping around) — \"I can gather the acorns! And the leaves! And the twigs!\"",
+          "Player 4: [Waiting for their turn...]",
+          "Player 1: [Waiting for their turn...]",
+          "Player 2: [Waiting for their turn...]",
+          "Middle:",
+          "Your Line: (giggling) — \"I found the biggest acorn ever! It's as big as my head!\"",
+          "Player 4: [Waiting for their turn...]",
+          "Player 1: [Waiting for their turn...]",
+          "Your Queue: (nodding) — \"Yes, we're doing well. But we need to speed up.\"",
+          "Your Line: (panting) — \"I've gathered all the acorns, leaves, and twigs we need!\"",
+          "Player 4: [Waiting for their turn...]",
+          "Player 1: [Waiting for their turn...]",
+          "Your Queue: (looking at the sky) — \"We need to finish before the sun sets.\"",
+          "Your Line: (excitedly) — \"I can't wait to see the finished project!\"",
+          "Player 4: [Waiting for their turn...]",
+          "End:",
+          "Player 1: [Waiting for their turn...]",
+          "Your Queue: (nodding) — \"Indeed. It's a job well done.\"",
+          "Your Line: (jumping around) — \"It's the best treehouse ever! Can we do this again?\"",
+          "Player 4: [Waiting for their turn...]",
+          "Player 1: [Waiting for their turn...]",
+          "Your Queue: (wisely) — \"Remember, it's not about the destination, but the journey.\"",
+          "Your Line: (excitedly) — \"I had so much fun! Can't wait for our next adventure!\"",
+          "Player 4: [Waiting for their turn...]",
+          "Player 1: [Waiting for their turn...]",
+          "Your Queue: (softly) — \"Goodnight. Tomorrow is another day.\"",
+          "Your Line: (yawning) — \"Goodnight! I'll dream of acorns and treehouses!\"",
+          "Player 4: [Waiting for their turn...]"
+        ]
+      };
+
+      const characterDescription = document.getElementById("character-description");
+      characterDescription.innerHTML = data.player_description.map(desc => `<p>${desc}</p>`).join("");
+
+      const linesContainer = document.getElementById("lines-container");
+      linesContainer.innerHTML = "";
+
+      data.lines.forEach((line) => {
+        const lineElement = document.createElement("p");
+        lineElement.textContent = line;
+        lineElement.className = "line";
+
+        if (line.startsWith("Your Line:")) {
+          lineElement.classList.add("player-line");
+        } else if (line.startsWith("Your Queue:")) {
+          lineElement.classList.add("queue");
+        } else if (line.endsWith(":")) {
+          lineElement.classList.add("section");
+        } else {
+          lineElement.classList.add("placeholder");
+        }
+        linesContainer.appendChild(lineElement);
+      });
+    }
+  </script>
+</body>
+</html>
