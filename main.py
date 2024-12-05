@@ -23,8 +23,7 @@ print(os.getenv('OPENAI_API_KEY'))  # Check if this prints your actual key
 
 # OpenAI and Vonage setup
 
-# client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
-client = OpenAI(api_key="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")
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 VONAGE_API_KEY = "6d354b30"
 VONAGE_API_SECRET = "W9Uz3r7eSmCEIXk7"
