@@ -18,6 +18,9 @@ app.config['SECRET_KEY'] = 'your-secret-key'
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
+import os
+print(os.getenv('OPENAI_API_KEY'))  # Check if this prints your actual key
+
 # OpenAI and Vonage setup
 
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
