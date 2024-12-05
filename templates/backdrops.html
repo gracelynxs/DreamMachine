@@ -77,84 +77,63 @@
 </head>
 <body>
     <div class="container">
-        <h1>Generate Scene Backdrops</h1>
+        <h1>View Scene Backdrops</h1>
 
         <div id="backdrop-preview">
-            <p>Click below to generate all three scene backdrops.</p>
+            <p>Click below to view all three scene backdrops.</p>
         </div>
 
         <div class="loading" id="loading-message">
             <div class="loading-spinner"></div>
-            <p>Generating backdrops... This may take a few moments.</p>
+            <p>Loading backdrops...</p>
         </div>
 
         <div class="button-container">
             <button id="fullscreenButton" onclick="toggleFullScreen()">Fullscreen</button>
-            <button id="generateBtn" onclick="generateAllBackdrops()" class="generate-btn">Generate All Backdrops</button>
+            <button id="generateBtn" onclick="showAllBackdrops()" class="generate-btn">Show All Backdrops</button>
             <button onclick="window.location.href='/'" class="home-btn">Back to Home</button>
         </div>
     </div>
 
     <script>
-        function generateAllBackdrops() {
-            // Hide the "Generate All Backdrops" button once clicked
+        function showAllBackdrops() {
+            // Hide the button once clicked
             document.getElementById('generateBtn').style.display = 'none';
 
             // Show loading message
             document.getElementById('loading-message').style.display = 'block';
             document.getElementById('backdrop-preview').innerHTML = ''; // Clear previous content
 
-            // Define the scenes to generate backdrops for
-            const scenes = ['beginning', 'middle', 'end'];
+            // Define the scenes and their corresponding image files
+            const scenes = [
+                { scene: 'beginning', imageFile: 'static/images/image1.png' },
+                { scene: 'middle', imageFile: 'static/images/image2.png' },
+                { scene: 'end', imageFile: 'static/images/image3.png' }
+            ];
 
-            // Create an array of promises to fetch each backdrop
-            const promises = scenes.map(scene => {
-                return fetch('/generate-backdrop', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ scene: scene })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        const img = document.createElement('img');
-                        img.src = data.image_url;
-                        img.alt = `${data.scene} scene backdrop`;
-                        img.style.margin = '10px';
-                        img.style.width = `${img.width * 0.85}px`;  // 85% of the current width
-                        img.style.height = `${img.height * 0.85}px`;
-                        document.getElementById('backdrop-preview').appendChild(img);
-                    } else {
-                        const errorMessage = document.createElement('p');
-                        errorMessage.textContent = `Error generating backdrop for ${scene}. Please try again.`;
-                        document.getElementById('backdrop-preview').appendChild(errorMessage);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    const errorMessage = document.createElement('p');
-                    errorMessage.textContent = `Error generating backdrop for ${scene}. Please try again.`;
-                    document.getElementById('backdrop-preview').appendChild(errorMessage);
-                });
+            // Create and append images
+            scenes.forEach(({ scene, imageFile }) => {
+                const img = document.createElement('img');
+                img.src = imageFile;
+                img.alt = `${scene} scene backdrop`;
+                img.style.margin = '10px';
+                img.style.maxWidth = '85%';
+                img.style.height = 'auto';
+                document.getElementById('backdrop-preview').appendChild(img);
             });
 
-            // Wait for all promises to resolve
-            Promise.all(promises)
-                .then(() => {
-                    // Hide loading message once all backdrops are generated
-                    document.getElementById('loading-message').style.display = 'none';
-                });
+            // Hide loading message once all images are added
+            document.getElementById('loading-message').style.display = 'none';
         }
+
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
-                localStorage.setItem("fullscreen", "true");
+                    localStorage.setItem("fullscreen", "true");
                 });
             } else if (document.exitFullscreen) {
                 document.exitFullscreen().then(() => {
-                localStorage.setItem("fullscreen", "false");
+                    localStorage.setItem("fullscreen", "false");
                 });
             }
         }
