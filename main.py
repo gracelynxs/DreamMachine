@@ -338,10 +338,35 @@ def get_player_lines():
 
     return jsonify({'lines': script_data['player_lines'][player_id]})
 
+# import json
+# @app.route('/qr-code')
+# def qr_code():
+#     script_link = request.args.get('scriptLink', '')
+#     return render_template('qr_code.html', script_link=script_link)
+
 @app.route('/qr-code')
 def qr_code():
-    script_link = request.args.get('scriptLink', '')
-    return render_template('qr_code.html', script_link=script_link)
+    script_data = session.get('script_data', {})
+    player_ids = session.get('player_ids', [])
+    role_map = script_data.get('role_map', {})
+    
+    # Format player data for the React component
+    player_data = [
+        {
+            'id': player_id,
+            'role': role_map.get(player_id, f'Player {i+1}')
+        }
+        for i, player_id in enumerate(player_ids)
+    ]
+    
+    return render_template('qr_code.html', player_data=player_data)
+
+@app.route('/script/<player_id>')
+def player_script(player_id):
+    script_data = session.get('script_data', {})
+    if not script_data or player_id not in script_data.get('player_lines', {}):
+        return "Script not found", 404
+    return render_template('script.html', player_id=player_id)
 
 @app.route('/display-script', methods=['GET', 'POST'])
 def display_script():
@@ -400,64 +425,217 @@ def test_qr():
 def backdrops():
     return render_template('backdrops.html')
 
+# @app.route('/generate-backdrop', methods=['POST'])
+# def generate_backdrop():
+#     try:
+#         data = request.get_json()
+#         scene_type = data.get('scene')
+#         script_data = session.get('script_data', {})
+#         lines = script_data.get('lines', [])
+
+#         # Extract relevant lines based on scene type
+#         scene_lines = []
+#         in_section = False
+#         section_count = 0
+
+#         if scene_type == 'beginning':
+#             target_section = "Beginning:"
+#         elif scene_type == 'middle':
+#             target_section = "Middle:"
+#         else:
+#             target_section = "End:"
+
+#         # Extract 3 lines from the appropriate section
+#         for line in lines:
+#             if line.startswith(target_section):
+#                 in_section = True
+#                 continue
+#             if in_section and section_count < 3 and ":" in line:
+#                 # Extract the dialogue part after the character name
+#                 dialogue = line.split(":", 1)[1].strip()
+#                 scene_lines.append(dialogue)
+#                 section_count += 1
+
+#         # Combine lines for the prompt
+#         scene_description = " ".join(scene_lines)
+#         prompt = f"Create a detailed scene image based on this script excerpt: {scene_description}. Make it dreamlike and surreal, with vibrant colors and fantastical elements. No text. No writing. No words."
+
+#         # Generate image using OpenAI
+#         response = client.images.generate(
+#             model="dall-e-3",
+#             prompt=prompt,
+#             size="1024x1024",
+#             quality="standard",
+#             n=1,
+#         )
+
+#         image_url = response.data[0].url
+
+#         return jsonify({
+#             'status': 'success',
+#             'image_url': image_url,
+#             'scene': scene_type
+#         })
+
+#     except Exception as e:
+#         print(f"Error generating backdrop: {str(e)}")
+#         return jsonify({
+#             'status': 'error',
+#             'message': 'Error generating backdrop'
+#         }), 500
+
 @app.route('/generate-backdrop', methods=['POST'])
 def generate_backdrop():
     try:
+        # Add detailed logging for session and script data
+        print("Session contents:", dict(session))
+        print("Script data exists in session:", 'script_data' in session)
+        
+        script_data = session.get('script_data', {})
+        print("Script data contents:", script_data)
+        
+        lines = script_data.get('lines', [])
+        print("Number of lines:", len(lines))
+        if lines:
+            print("First line:", lines[0])
+            print("All lines:", lines)  # Print all lines for debugging
+        else:
+            print("No lines found in script_data")
+
         data = request.get_json()
         scene_type = data.get('scene')
-        script_data = session.get('script_data', {})
-        lines = script_data.get('lines', [])
+        print(f"Processing {scene_type} scene")
 
-        # Extract relevant lines based on scene type
-        scene_lines = []
-        in_section = False
-        section_count = 0
-
-        if scene_type == 'beginning':
-            target_section = "Beginning:"
-        elif scene_type == 'middle':
-            target_section = "Middle:"
+        if not lines:
+            # If no script data, use placeholder text for testing
+            placeholder_texts = {
+                'beginning': "Characters enter a mysterious garden with floating lanterns",
+                'middle': "The garden transforms into a crystal cave with singing stones",
+                'end': "The cave opens up to reveal a sky full of flying books"
+            }
+            scene_description = placeholder_texts.get(scene_type, "A dreamlike scene unfolds")
+            print(f"Using placeholder text: {scene_description}")
         else:
-            target_section = "End:"
+            # Extract relevant lines based on scene type
+            scene_lines = []
+            in_section = False
+            section_count = 0
 
-        # Extract 3 lines from the appropriate section
-        for line in lines:
-            if line.startswith(target_section):
-                in_section = True
-                continue
-            if in_section and section_count < 3 and ":" in line:
-                # Extract the dialogue part after the character name
-                dialogue = line.split(":", 1)[1].strip()
-                scene_lines.append(dialogue)
-                section_count += 1
+            target_section = f"{scene_type.capitalize()}:"
+            print(f"Looking for section: {target_section}")
+            
+            for line in lines:
+                if line.startswith(target_section):
+                    in_section = True
+                    print(f"Found target section: {target_section}")
+                    continue
+                if in_section and section_count < 3 and ":" in line:
+                    dialogue = line.split(":", 1)[1].strip()
+                    scene_lines.append(dialogue)
+                    section_count += 1
+                    print(f"Added line to scene: {dialogue}")
+            
+            scene_description = " ".join(scene_lines)
+            print(f"Final scene description: {scene_description}")
 
-        # Combine lines for the prompt
-        scene_description = " ".join(scene_lines)
         prompt = f"Create a detailed scene image based on this script excerpt: {scene_description}. Make it dreamlike and surreal, with vibrant colors and fantastical elements. No text. No writing. No words."
+        print(f"Generated prompt: {prompt}")
 
-        # Generate image using OpenAI
-        response = client.images.generate(
-            model="dall-e-3",
-            prompt=prompt,
-            size="1024x1024",
-            quality="standard",
-            n=1,
-        )
-
-        image_url = response.data[0].url
-
-        return jsonify({
-            'status': 'success',
-            'image_url': image_url,
-            'scene': scene_type
-        })
+        try:
+            response = client.images.generate(
+                model="dall-e-3",
+                prompt=prompt,
+                size="1024x1024",
+                quality="standard",
+                n=1,
+            )
+            image_url = response.data[0].url
+            print(f"Successfully generated image: {image_url}")
+            
+            return jsonify({
+                'status': 'success',
+                'image_url': image_url,
+                'scene': scene_type,
+                'description': scene_description
+            })
+            
+        except Exception as e:
+            print(f"OpenAI API error: {str(e)}")
+            raise
 
     except Exception as e:
-        print(f"Error generating backdrop: {str(e)}")
+        error_msg = f"Error generating backdrop: {str(e)}"
+        print(error_msg)
         return jsonify({
             'status': 'error',
-            'message': 'Error generating backdrop'
+            'message': error_msg,
+            'scene': scene_type
         }), 500
     
+   
+@app.route('/view-script/<player_id>')
+def view_script(player_id):
+    script_data = session.get('script_data', {})
+    if not script_data or player_id not in script_data.get('player_lines', {}):
+        return "Script not found", 404
+        
+    all_lines = script_data.get('lines', [])
+    role_map = script_data.get('role_map', {})
+    current_player_role = role_map.get(player_id, '')
+    player_number = current_player_role.split()[1]
+    
+    character_description = None
+    formatted_lines = []
+    current_section = None
+    previous_line = None
+    
+    # First pass - get character description
+    for line in all_lines:
+        if "Character Descriptions:" in line:
+            current_section = "Character Descriptions"
+            continue
+        if current_section == "Character Descriptions" and current_player_role in line:
+            desc_line = line.split(":", 1)[1].strip()
+            character_description = desc_line
+            break
+    
+    # Second pass - process script lines
+    for line in all_lines:
+        # Handle section headers
+        if any(header in line for header in ["Beginning:", "Middle:", "End:"]):
+            current_section = line.strip(":")
+            formatted_lines.append(line)
+            previous_line = None
+            continue
+            
+        # Skip character descriptions section
+        if "Character Descriptions:" in line or current_section == "Character Descriptions":
+            continue
+            
+        # Process dialogue lines
+        if ":" in line:
+            speaker, dialogue = line.split(":", 1)
+            speaker = speaker.strip()
+            dialogue = dialogue.strip()
+            
+            if speaker == current_player_role:
+                if previous_line and previous_line != current_player_role:
+                    # Add the previous line as the queue
+                    formatted_lines.append(f"Your Queue: {previous_line_full}")
+                formatted_lines.append(f"Your Line: {dialogue}")
+            else:
+                formatted_lines.append(f"{speaker}: [Waiting for their turn...]")
+                
+            # Store this line as the previous line for queue detection
+            previous_line = speaker
+            previous_line_full = dialogue
+    
+    return render_template('script_view.html', 
+                         lines=formatted_lines,
+                         player_role=current_player_role,
+                         player_number=player_number,
+                         character_description=character_description)
+
+ 
 if __name__ == '__main__':
     app.run(debug=True)
