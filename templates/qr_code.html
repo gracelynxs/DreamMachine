@@ -12,22 +12,69 @@
       background: #fd79a8;
       color: #ffffff;
       text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     h1 {
       font-size: 2rem;
       color: #ffeaa7;
       margin-bottom: 20px;
     }
-    #qrCodeCanvas {
-      margin: 20px auto;
+    .player-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 800px;
+      padding: 0 20px;
     }
-    #scriptLink {
-      margin-top: 10px;
+    .player-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+    }
+    .player-title {
       font-size: 1.2rem;
       color: #ffeaa7;
-      word-wrap: break-word;
+      margin: 0;
     }
-    button {
+    .player-button {
+      width: auto;
+      padding: 12px 20px;
+      font-size: 16px;
+     
+      border: none;
+      border-radius: 8px;
+      background: #ffeaa7;
+      color: #2d3436;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      transition: background-color 0.2s;
+    }
+    .player-button:hover {
+      background: #fdcb6e;
+    }
+    .qr-code {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .bottom-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .bottom-buttons button {
       padding: 10px 20px;
       font-size: 16px;
       border: none;
@@ -35,46 +82,45 @@
       background: #ffeaa7;
       color: #2d3436;
       cursor: pointer;
+      transition: background-color 0.2s;
     }
-    button:hover {
+    .bottom-buttons button:hover {
       background: #fdcb6e;
     }
   </style>
 </head>
 <body>
   <h1>Share Your Script</h1>
-  <div id="qrCodeCanvas"></div>
-  <p id="scriptLink"></p>
+ 
+  <div class="player-section">
+    {% for player in player_data %}
+    <div class="player-container">
+      <h2 class="player-title">{{ player.role }}</h2>
+      <div class="qr-code" id="qr-{{ player.id }}" data-url="{{ url_for('view_script', player_id=player.id) }}"></div>
+      <a href="{{ url_for('view_script', player_id=player.id) }}" class="player-button">
+        Click here for player {{ loop.index }} lines
+      </a>
+    </div>
+    {% endfor %}
+  </div>
 
-  <button onclick="window.location.href='/backdrops'" class="backdrop-btn">Backdrops</button>
-  <button onclick="window.location.href='/'">Start Over</button>
+  <div class="bottom-buttons">
+    <button onclick="window.location.href='/backdrops'">Backdrops</button>
+    <button onclick="window.location.href='/'">Start Over</button>
+  </div>
 
   <script>
-    // Get the script link from the URL parameters
-    const scriptLink = decodeURIComponent(new URLSearchParams(window.location.search).get('scriptLink'));
-    const qrCanvas = document.getElementById('qrCodeCanvas');
-    const scriptLinkText = document.getElementById('scriptLink');
-
-    if (scriptLink) {
-      // Show the script link as fallback text
-      scriptLinkText.textContent = scriptLink;
-
-      // Generate the QR code
-      new QRCode(qrCanvas, {
-        text: scriptLink,
-        width: 200,  // QR code width
-        height: 200, // QR code height
-        colorDark: "#000000",  // QR code dark color
-        colorLight: "#ffffff", // QR code light color
+    document.querySelectorAll('.qr-code').forEach(qrDiv => {
+      const url = qrDiv.getAttribute('data-url');
+      new QRCode(qrDiv, {
+        text: window.location.origin + url,
+        width: 150,
+        height: 150,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
-    } else {
-      // Display an error if the link is missing
-      scriptLinkText.textContent = "Error: No script link provided.";
-      scriptLinkText.style.color = "#ff0000"; // Highlight error in red
-    }
-
-    
+    });
   </script>
 </body>
 </html>
