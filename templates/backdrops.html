@@ -13,17 +13,11 @@
             color: #ffffff;
             text-shadow: 1px 1px 2px #2d3436;
         }
-        h1, h3, p, label {
-            margin-bottom: 10px;
-        }
         h1 {
             font-size: 2.5rem;
             text-align: center;
             color: #ffeaa7;
             text-shadow: 2px 2px 5px #6c5ce7;
-        }
-        #backdrop-section {
-            text-align: center;
         }
 
         #backdrop-preview {
@@ -31,7 +25,26 @@
             background-color: #F3F4F6;
             border-radius: 0.5rem;
             padding: 1rem;
-            margin: 1rem 0;
+            margin: 1rem auto;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        #backdrop-preview img {
+            width: 85%;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .loading {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
         }
 
         .button-container {
@@ -50,13 +63,20 @@
             transition: all 0.2s;
             width: 200px;
             border: none;
+            background-color: #ffeaa7;
+            color: #2d3436;
         }
 
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 1rem;
+        .generate-btn:hover, .home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+
+        .generate-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
         #fullscreenButton {
             position: fixed;
             top: 20px;
@@ -69,94 +89,97 @@
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             transition: background 0.3s ease;
+            z-index: 1000;
         }
+
         #fullscreenButton:hover {
             background-color: #fdcb6e;
+            transform: translateY(-2px);
+        }
+
+        .backdrop-title {
+            color: #2d3436;
+            margin: 20px 0 10px 0;
+            text-shadow: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <button id="fullscreenButton" onclick="toggleFullScreen()">Fullscreen</button>
         <h1>Generate Scene Backdrops</h1>
 
         <div id="backdrop-preview">
             <p>Click below to generate all three scene backdrops.</p>
         </div>
 
-        <div class="loading" id="loading-message">
-            <div class="loading-spinner"></div>
-            <p>Generating backdrops... This may take a few moments.</p>
-        </div>
-
         <div class="button-container">
-            <button id="fullscreenButton" onclick="toggleFullScreen()">Fullscreen</button>
             <button id="generateBtn" onclick="generateAllBackdrops()" class="generate-btn">Generate All Backdrops</button>
             <button onclick="window.location.href='/'" class="home-btn">Back to Home</button>
         </div>
     </div>
 
     <script>
-        function generateAllBackdrops() {
-            // Hide the "Generate All Backdrops" button once clicked
-            document.getElementById('generateBtn').style.display = 'none';
-
-            // Show loading message
-            document.getElementById('loading-message').style.display = 'block';
-            document.getElementById('backdrop-preview').innerHTML = ''; // Clear previous content
-
-            // Define the scenes to generate backdrops for
-            const scenes = ['beginning', 'middle', 'end'];
-
-            // Create an array of promises to fetch each backdrop
-            const promises = scenes.map(scene => {
-                return fetch('/generate-backdrop', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ scene: scene })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        const img = document.createElement('img');
-                        img.src = data.image_url;
-                        img.alt = `${data.scene} scene backdrop`;
-                        img.style.margin = '10px';
-                        img.style.width = `${img.width * 0.85}px`;  // 85% of the current width
-                        img.style.height = `${img.height * 0.85}px`;
-                        document.getElementById('backdrop-preview').appendChild(img);
-                    } else {
-                        const errorMessage = document.createElement('p');
-                        errorMessage.textContent = `Error generating backdrop for ${scene}. Please try again.`;
-                        document.getElementById('backdrop-preview').appendChild(errorMessage);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    const errorMessage = document.createElement('p');
-                    errorMessage.textContent = `Error generating backdrop for ${scene}. Please try again.`;
-                    document.getElementById('backdrop-preview').appendChild(errorMessage);
-                });
-            });
-
-            // Wait for all promises to resolve
-            Promise.all(promises)
-                .then(() => {
-                    // Hide loading message once all backdrops are generated
-                    document.getElementById('loading-message').style.display = 'none';
-                });
-        }
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
-                localStorage.setItem("fullscreen", "true");
+                    localStorage.setItem("fullscreen", "true");
                 });
             } else if (document.exitFullscreen) {
                 document.exitFullscreen().then(() => {
-                localStorage.setItem("fullscreen", "false");
+                    localStorage.setItem("fullscreen", "false");
                 });
             }
+        }
+
+        async function generateAllBackdrops() {
+            const previewDiv = document.getElementById('backdrop-preview');
+            const generateBtn = document.getElementById('generateBtn');
+            generateBtn.disabled = true;
+            previewDiv.innerHTML = '<div class="loading">Generating backdrops... Please wait...</div>';
+
+            const scenes = ['beginning', 'middle', 'end'];
+
+            for (const scene of scenes) {
+                try {
+                    const response = await fetch('/generate-backdrop', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ scene: scene })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status === 'success' && data.image_url) {
+                        const title = document.createElement('h2');
+                        title.className = 'backdrop-title';
+                        title.textContent = scene.charAt(0).toUpperCase() + scene.slice(1) + ' Scene';
+                        
+                        const img = document.createElement('img');
+                        img.src = data.image_url;
+                        img.alt = `${scene} scene backdrop`;
+
+                        const loadingDiv = previewDiv.querySelector('.loading');
+                        if (loadingDiv) {
+                            previewDiv.removeChild(loadingDiv);
+                        }
+
+                        previewDiv.appendChild(title);
+                        previewDiv.appendChild(img);
+                    } else {
+                        throw new Error(data.message || 'Failed to generate image');
+                    }
+                } catch (error) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'loading';
+                    errorDiv.textContent = `Error generating ${scene} backdrop: ${error.message}`;
+                    previewDiv.appendChild(errorDiv);
+                }
+            }
+
+            generateBtn.disabled = false;
         }
     </script>
 </body>
