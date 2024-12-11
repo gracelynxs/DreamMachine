@@ -38,12 +38,21 @@ venv\Scripts\activate.bat
 ```bash
 pip install -r requirements.txt
 ```
+### 5. Replace this in main.py
+```if __name__ == '__main__':
+  app.run(debug=True)
+```
+with
+```if __name__ == '__main__':
+  port = int(os.environ.get('PORT', 5000))
+  app.run(host='0.0.0.0', port=port)
+```
 
+   
 ### 5. Run the Application
 ```bash
 python main.py
 ```
-
 The application will be available at `http://127.0.0.1:5000`
 
 ## Requirements
