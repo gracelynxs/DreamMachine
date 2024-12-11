@@ -115,7 +115,7 @@
     <div id="form-section">
       <form id="dream-form">
         <label for="player_count">Number of players (excluding dreamer):</label>
-        <select id="player_count" name="player_count">
+        <select id="player_count" name="player_count" required onchange="generateUserFields()">
           <option value="">Select number of players</option>
           <option value="3">3</option>
           <option value="4">4</option>
